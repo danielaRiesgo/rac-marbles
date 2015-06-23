@@ -12520,7 +12520,7 @@ module.exports={
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Reactive-Extensions/RxJS.git"
+    "url": "git+https://github.com/Reactive-Extensions/RxJS.git"
   },
   "licenses": [
     {
@@ -12590,7 +12590,8 @@ module.exports={
     "tarball": "http://registry.npmjs.org/rx/-/rx-2.5.2.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/rx/-/rx-2.5.2.tgz"
+  "_resolved": "https://registry.npmjs.org/rx/-/rx-2.5.2.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
 },{}],65:[function(require,module,exports){
@@ -20988,7 +20989,7 @@ function operatorsMenuComponent() {
 }
 
 module.exports = operatorsMenuComponent;
-},{"cyclejs":5,"rac-marbles/data/examples":131,"rac-marbles/data/todo":135,"rac-marbles/styles/colors":137,"rac-marbles/styles/dimens":138,"rac-marbles/styles/utils":140}],126:[function(require,module,exports){
+},{"cyclejs":5,"rac-marbles/data/examples":132,"rac-marbles/data/todo":135,"rac-marbles/styles/colors":137,"rac-marbles/styles/dimens":138,"rac-marbles/styles/utils":140}],126:[function(require,module,exports){
 /*
  * Functions to handle data of input diagrams in the example shown in the
  * sandbox.
@@ -21334,7 +21335,7 @@ function sandboxComponent(interactions, properties) {
 }
 
 module.exports = sandboxComponent;
-},{"cyclejs":5,"immutable":114,"rac-marbles/components/sandbox/sandbox-input":126,"rac-marbles/components/sandbox/sandbox-output":127,"rac-marbles/data/examples":131,"rac-marbles/styles/colors":137,"rac-marbles/styles/dimens":138,"rac-marbles/styles/fonts":139,"rac-marbles/styles/utils":140,"rxtween":150}],129:[function(require,module,exports){
+},{"cyclejs":5,"immutable":114,"rac-marbles/components/sandbox/sandbox-input":126,"rac-marbles/components/sandbox/sandbox-output":127,"rac-marbles/data/examples":132,"rac-marbles/styles/colors":137,"rac-marbles/styles/dimens":138,"rac-marbles/styles/fonts":139,"rac-marbles/styles/utils":140,"rxtween":150}],129:[function(require,module,exports){
 /*
  * Conversion from virtual time streams out to diagram data, and
  * vice-versa, and related functions.
@@ -21377,19 +21378,35 @@ module.exports = {
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
+  "reduce": {
+    "label": "reduce { x, y in x + y }",
+    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
+    "apply": function apply(inputs) {
+      return inputs[0].reduce(function (x, y) {
+        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
+      });
+    }
+  }
+};
+},{"cyclejs":5}],131:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
   "combineLatest": {
-    "label": "combineLatest((x, y) => \"\" + x + y)",
+    "label": "combineLatest",
     "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
     "apply": function apply(inputs) {
       return Rx.Observable.combineLatest(inputs[0], inputs[1], function (x, y) {
-        return "" + x.get("content") + y.get("content");
+        return x.get("content") + "," + y.get("content");
       });
     }
   },
 
-  "sample": {
-    "label": "sample",
-    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 60, d: 4 }, { t: 80, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 33, d: "C" }, { t: 70, d: "D" }, 90]],
+  "sampleOn": {
+    "label": "sampleOn",
+    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 60, d: 4 }, { t: 80, d: 5 }], [{ t: 10, d: "-" }, { t: 25, d: "-" }, { t: 33, d: "-" }, { t: 70, d: "-" }, 90]],
     "apply": function apply(inputs) {
       return inputs[0].sample(inputs[1]);
     }
@@ -21400,12 +21417,12 @@ module.exports = {
     "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
     "apply": function apply(inputs) {
       return Rx.Observable.zip(inputs[0], inputs[1], function (x, y) {
-        return "" + x.get("content") + y.get("content");
+        return x.get("content") + "," + y.get("content");
       });
     }
   }
 };
-},{"cyclejs":5}],131:[function(require,module,exports){
+},{"cyclejs":5}],132:[function(require,module,exports){
 /*
  * The database of all predefined examples in the app.
  */
@@ -21415,7 +21432,7 @@ var transformExamples = require('rac-marbles/data/transform-examples');
 var combineExamples = require('rac-marbles/data/combine-examples');
 var filterExamples = require('rac-marbles/data/filter-examples');
 var flattenExamples = require('rac-marbles/data/flatten-examples');
-var mathExamples = require('rac-marbles/data/math-examples');
+var aggregateExamples = require('rac-marbles/data/aggregate-examples');
 
 function merge() {
   var args = 1 <= arguments.length ? Array.prototype.slice.call(arguments) : [];
@@ -21438,28 +21455,20 @@ function applyCategory(examples, categoryName) {
   return examples;
 };
 
-module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(flattenExamples, 'Flatten Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
-},{"rac-marbles/data/combine-examples":130,"rac-marbles/data/filter-examples":132,"rac-marbles/data/flatten-examples":133,"rac-marbles/data/math-examples":134,"rac-marbles/data/transform-examples":136}],132:[function(require,module,exports){
+module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(flattenExamples, 'Flattening Operators'), applyCategory(aggregateExamples, 'Aggregating Operators'));
+},{"rac-marbles/data/aggregate-examples":130,"rac-marbles/data/combine-examples":131,"rac-marbles/data/filter-examples":133,"rac-marbles/data/flatten-examples":134,"rac-marbles/data/transform-examples":136}],133:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
   "filter": {
-    "label": "filter(x => x > 10)",
+    "label": "filter { x in x > 10 }",
     "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
     "apply": function apply(inputs) {
       return inputs[0].filter(function (x) {
         return x.get("content") > 10;
       });
-    }
-  },
-
-  "first": {
-    "label": "first",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
-    "apply": function apply(inputs) {
-      return inputs[0].first();
     }
   },
 
@@ -21495,7 +21504,7 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":5}],133:[function(require,module,exports){
+},{"cyclejs":5}],134:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
@@ -21517,22 +21526,6 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":5}],134:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "reduce": {
-    "label": "reduce((x, y) => x + y)",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].reduce(function (x, y) {
-        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
-      });
-    }
-  }
-};
 },{"cyclejs":5}],135:[function(require,module,exports){
 "use strict";
 
@@ -21546,7 +21539,7 @@ module.exports = {
     "observeOn": { "label": "observeOn" },
     "materialize": { "label": "materialize" },
     "dematerialize": { "label": "dematerialize" },
-    "dematerialize": { "label": "dematerialize" },
+    "scan": { "label": "scan" },
     "sampleOn": { "label": "sampleOn" },
     "combinePrevious": { "label": "combinePrevious" },
     "skipRepeats": { "label": "skipRepeats" },
@@ -21589,7 +21582,7 @@ var Rx = require("cyclejs").Rx;
 
 module.exports = {
   "delay": {
-    "label": "delay",
+    "label": "delay(20)",
     "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 1 }]],
     "apply": function apply(inputs, scheduler) {
       return inputs[0].delay(20, scheduler);
@@ -21597,21 +21590,11 @@ module.exports = {
   },
 
   "map": {
-    "label": "map(x => 10 * x)",
+    "label": "map { x in x * 10 }",
     "inputs": [[{ t: 10, d: 1 }, { t: 20, d: 2 }, { t: 50, d: 3 }]],
     "apply": function apply(inputs) {
       return inputs[0].map(function (x) {
         return x.set("content", x.get("content") * 10);
-      });
-    }
-  },
-
-  "scan": {
-    "label": "scan((x, y) => x + y)",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].scan(function (x, y) {
-        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
       });
     }
   }
