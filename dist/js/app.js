@@ -20168,7 +20168,7 @@ module.exports={
     "postinstall": "ln -s ../ignore/es5src node_modules/rxmarbles && ln -s ../package.json node_modules/package.json",
     "less": "lessc styles/main.less dist/css/main.css",
     "babel": "mkdir -p ignore/es5src && babel src --out-dir ignore/es5src",
-    "browserify": "browserify -e ignore/es5src/app.js --outfile dist/js/app.js",
+    "browserify": "mkdir -p dist/js && browserify -e ignore/es5src/app.js --outfile dist/js/app.js",
     "browserify-element": "browserify -e ignore/es5src/element.js --outfile dist/js/element.js",
     "build": "npm run less && npm run babel && npm run browserify",
     "build-production": "npm run less && npm run babel && npm run browserify && npm run uglify",
