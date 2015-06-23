@@ -1,7 +1,7 @@
 import Cycle from 'cyclejs';
-import diagramModel from 'rxmarbles/components/diagram/diagram-model';
-import diagramView from 'rxmarbles/components/diagram/diagram-view';
-import diagramIntent from 'rxmarbles/components/diagram/diagram-intent';
+import diagramModel from 'rac-marbles/components/diagram/diagram-model';
+import diagramView from 'rac-marbles/components/diagram/diagram-view';
+import diagramIntent from 'rac-marbles/components/diagram/diagram-intent';
 
 function DiagramComponent(interactions, properties) {
   let intent = diagramIntent(interactions);

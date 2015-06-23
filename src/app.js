@@ -1,12 +1,12 @@
 var Cycle = require('cyclejs');
-var appModel = require('rxmarbles/app-model');
-var appView = require('rxmarbles/app-view');
-var operatorsMenuLinkComponent = require('rxmarbles/components/operators-menu-link');
-var operatorsMenuComponent = require('rxmarbles/components/operators-menu');
-var sandboxComponent = require('rxmarbles/components/sandbox/sandbox');
-var diagramComponent = require('rxmarbles/components/diagram/diagram');
-var marbleComponent = require('rxmarbles/components/marble');
-var diagramCompletionComponent = require('rxmarbles/components/diagram-completion');
+var appModel = require('rac-marbles/app-model');
+var appView = require('rac-marbles/app-view');
+var operatorsMenuLinkComponent = require('rac-marbles/components/operators-menu-link');
+var operatorsMenuComponent = require('rac-marbles/components/operators-menu');
+var sandboxComponent = require('rac-marbles/components/sandbox/sandbox');
+var diagramComponent = require('rac-marbles/components/diagram/diagram');
+var marbleComponent = require('rac-marbles/components/marble');
+var diagramCompletionComponent = require('rac-marbles/components/diagram-completion');
 
 Cycle.registerCustomElement('x-operators-menu-link', operatorsMenuLinkComponent);
 Cycle.registerCustomElement('x-operators-menu', operatorsMenuComponent);

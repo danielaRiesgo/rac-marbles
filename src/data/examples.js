@@ -1,11 +1,11 @@
 /*
  * The database of all predefined examples in the app.
  */
-var transformExamples = require('rxmarbles/data/transform-examples');
-var combineExamples = require('rxmarbles/data/combine-examples');
-var filterExamples = require('rxmarbles/data/filter-examples');
-var flattenExamples = require('rxmarbles/data/flatten-examples');
-var mathExamples = require('rxmarbles/data/math-examples');
+var transformExamples = require('rac-marbles/data/transform-examples');
+var combineExamples = require('rac-marbles/data/combine-examples');
+var filterExamples = require('rac-marbles/data/filter-examples');
+var flattenExamples = require('rac-marbles/data/flatten-examples');
+var mathExamples = require('rac-marbles/data/math-examples');
 
 function merge() {
   var args = (1 <= arguments.length) ? Array.prototype.slice.call(arguments) : [];

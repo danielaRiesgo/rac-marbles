@@ -1,8 +1,8 @@
 import Cycle from 'cyclejs';
-import DiagramComponent from 'rxmarbles/components/diagram/diagram';
-import SandboxComponent from 'rxmarbles/components/sandbox/sandbox';
-import MarbleComponent from 'rxmarbles/components/marble';
-import DiagramCompletionComponent from 'rxmarbles/components/diagram-completion';
+import DiagramComponent from 'rac-marbles/components/diagram/diagram';
+import SandboxComponent from 'rac-marbles/components/sandbox/sandbox';
+import MarbleComponent from 'rac-marbles/components/marble';
+import DiagramCompletionComponent from 'rac-marbles/components/diagram-completion';
 let h = Cycle.h;
 
 let SandboxPrototype = Object.create(HTMLElement.prototype);

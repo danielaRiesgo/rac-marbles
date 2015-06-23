@@ -1,7 +1,7 @@
 import Cycle from 'cyclejs';
-import Colors from 'rxmarbles/styles/colors';
-import Dimens from 'rxmarbles/styles/dimens';
-import {mergeStyles} from 'rxmarbles/styles/utils';
+import Colors from 'rac-marbles/styles/colors';
+import Dimens from 'rac-marbles/styles/dimens';
+import {mergeStyles} from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 

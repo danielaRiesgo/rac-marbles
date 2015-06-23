@@ -1,15 +1,15 @@
 import Cycle from 'cyclejs';
 import RxTween from 'rxtween';
-import Examples from 'rxmarbles/data/examples';
+import Examples from 'rac-marbles/data/examples';
 import {prepareInputDiagram, augmentWithExampleKey, makeNewInputDiagramsData$}
-  from 'rxmarbles/components/sandbox/sandbox-input';
-import {getOutputDiagram$} from 'rxmarbles/components/sandbox/sandbox-output';
+  from 'rac-marbles/components/sandbox/sandbox-input';
+import {getOutputDiagram$} from 'rac-marbles/components/sandbox/sandbox-output';
 import Immutable from 'immutable';
-import Colors from 'rxmarbles/styles/colors';
-import Dimens from 'rxmarbles/styles/dimens';
-import Fonts from 'rxmarbles/styles/fonts';
+import Colors from 'rac-marbles/styles/colors';
+import Dimens from 'rac-marbles/styles/dimens';
+import Fonts from 'rac-marbles/styles/fonts';
 import {mergeStyles, elevation1Style, elevation2Style, elevation2Before, elevation2After}
-  from 'rxmarbles/styles/utils';
+  from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 

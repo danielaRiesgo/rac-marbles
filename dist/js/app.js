@@ -2,14 +2,14 @@
 'use strict';
 
 var Cycle = require('cyclejs');
-var appModel = require('rxmarbles/app-model');
-var appView = require('rxmarbles/app-view');
-var operatorsMenuLinkComponent = require('rxmarbles/components/operators-menu-link');
-var operatorsMenuComponent = require('rxmarbles/components/operators-menu');
-var sandboxComponent = require('rxmarbles/components/sandbox/sandbox');
-var diagramComponent = require('rxmarbles/components/diagram/diagram');
-var marbleComponent = require('rxmarbles/components/marble');
-var diagramCompletionComponent = require('rxmarbles/components/diagram-completion');
+var appModel = require('rac-marbles/app-model');
+var appView = require('rac-marbles/app-view');
+var operatorsMenuLinkComponent = require('rac-marbles/components/operators-menu-link');
+var operatorsMenuComponent = require('rac-marbles/components/operators-menu');
+var sandboxComponent = require('rac-marbles/components/sandbox/sandbox');
+var diagramComponent = require('rac-marbles/components/diagram/diagram');
+var marbleComponent = require('rac-marbles/components/marble');
+var diagramCompletionComponent = require('rac-marbles/components/diagram-completion');
 
 Cycle.registerCustomElement('x-operators-menu-link', operatorsMenuLinkComponent);
 Cycle.registerCustomElement('x-operators-menu', operatorsMenuComponent);
@@ -21,7 +21,7 @@ Cycle.registerCustomElement('x-diagram', diagramComponent);
 Cycle.applyToDOM('.js-appContainer', function app() {
   return appView(appModel());
 });
-},{"cyclejs":6,"rxmarbles/app-model":118,"rxmarbles/app-view":119,"rxmarbles/components/diagram-completion":120,"rxmarbles/components/diagram/diagram":124,"rxmarbles/components/marble":125,"rxmarbles/components/operators-menu":127,"rxmarbles/components/operators-menu-link":126,"rxmarbles/components/sandbox/sandbox":130}],2:[function(require,module,exports){
+},{"cyclejs":6,"rac-marbles/app-model":117,"rac-marbles/app-view":118,"rac-marbles/components/diagram-completion":119,"rac-marbles/components/diagram/diagram":123,"rac-marbles/components/marble":124,"rac-marbles/components/operators-menu":126,"rac-marbles/components/operators-menu-link":125,"rac-marbles/components/sandbox/sandbox":129}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
 // shim for using process in browser
@@ -20141,12 +20141,12 @@ function appendPatch(apply, patch) {
 }));
 },{}],116:[function(require,module,exports){
 module.exports={
-  "name": "rxmarbles",
-  "version": "1.3.3",
-  "author": "Andre Staltz",
+  "name": "rac-marbles",
+  "version": "0.0.1",
+  "author": "Neil Pankey",
   "repository": {
     "type": "git",
-    "url": "git@github.com:staltz/rxmarbles.git"
+    "url": "git@github.com:neilpa/rac-marbles.git"
   },
   "license": "BSD 3-Clause",
   "private": true,
@@ -20165,7 +20165,7 @@ module.exports={
   },
   "scripts": {
     "preinstall": "rm -rf build && rm -rf node_modules && mkdir -p ignore/es5src",
-    "postinstall": "ln -s ../ignore/es5src node_modules/rxmarbles && ln -s ../package.json node_modules/package.json",
+    "postinstall": "ln -s ../ignore/es5src node_modules/rac-marbles && ln -s ../package.json node_modules/package.json",
     "less": "lessc styles/main.less dist/css/main.css",
     "babel": "mkdir -p ignore/es5src && babel src --out-dir ignore/es5src",
     "browserify": "mkdir -p dist/js && browserify -e ignore/es5src/app.js --outfile dist/js/app.js",
@@ -20185,6 +20185,1600 @@ module.exports={
 }
 
 },{}],117:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var Rx = _cyclejs2['default'].Rx;
+var packageJson = require('package');
+var RxPackageJson = require('cyclejs/node_modules/rx/package.json');
+
+var DEFAULT_EXAMPLE = 'merge';
+
+module.exports = function appModel() {
+  return {
+    route$: Rx.Observable.fromEvent(window, 'hashchange').map(function (hashEvent) {
+      return hashEvent.target.location.hash.replace('#', '');
+    }).startWith(window.location.hash.replace('#', '') || DEFAULT_EXAMPLE),
+    appVersion$: Rx.Observable.just(packageJson.version),
+    rxVersion$: Rx.Observable.just(RxPackageJson.version)
+  };
+};
+},{"cyclejs":6,"cyclejs/node_modules/rx/package.json":65,"package":116}],118:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesDimens = require('rac-marbles/styles/dimens');
+
+var _racMarblesStylesDimens2 = _interopRequireDefault(_racMarblesStylesDimens);
+
+var _racMarblesStylesFonts = require('rac-marbles/styles/fonts');
+
+var _racMarblesStylesFonts2 = _interopRequireDefault(_racMarblesStylesFonts);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+var pageRowWidth = '1060px';
+var sandboxWidth = '820px';
+
+var pageRowStyle = {
+  position: 'relative',
+  width: pageRowWidth,
+  margin: '0 auto'
+};
+
+var pageRowChildStyle = {
+  display: 'inline-block',
+  marginLeft: '-' + _racMarblesStylesDimens2['default'].spaceMedium
+};
+
+var pageRowFirstChildStyle = (0, _racMarblesStylesUtils.mergeStyles)(pageRowChildStyle, {
+  width: 'calc(' + pageRowWidth + ' - ' + sandboxWidth + ' - ' + _racMarblesStylesDimens2['default'].spaceMedium + ')',
+  marginRight: _racMarblesStylesDimens2['default'].spaceMedium
+});
+
+var pageRowLastChildStyle = (0, _racMarblesStylesUtils.mergeStyles)(pageRowChildStyle, {
+  width: sandboxWidth
+});
+
+function vrenderHeader() {
+  return h('div', { style: pageRowStyle }, [h('h1', { style: (0, _racMarblesStylesUtils.mergeStyles)({
+      fontFamily: _racMarblesStylesFonts2['default'].fontSpecial,
+      color: _racMarblesStylesColors2['default'].greyDark }, pageRowFirstChildStyle) }, 'RAC Marbles'), h('h3', { style: (0, _racMarblesStylesUtils.mergeStyles)({
+      color: _racMarblesStylesColors2['default'].greyDark }, pageRowLastChildStyle) }, 'Interactive diagrams for ReactiveCocoa')]);
+}
+
+function vrenderContent(route) {
+  return h('div', { style: (0, _racMarblesStylesUtils.mergeStyles)(pageRowStyle, { marginTop: _racMarblesStylesDimens2['default'].spaceSmall }) }, [h('div', { style: pageRowFirstChildStyle }, h('x-operators-menu', { key: 'operatorsMenu' })), h('div', { style: (0, _racMarblesStylesUtils.mergeStyles)({
+      position: 'absolute',
+      top: '0' }, pageRowLastChildStyle) }, h('x-sandbox', { key: 'sandbox', route: route, width: '820px' }))]);
+}
+
+function vrenderFooter() {
+  return h('section', {
+    style: {
+      position: 'fixed',
+      bottom: '2px',
+      right: _racMarblesStylesDimens2['default'].spaceMedium,
+      color: _racMarblesStylesColors2['default'].greyDark
+    }
+  }, ['Based on ', h('a', { href: 'http://rxmarbles.com' }, 'RxMarbles'), ' by ', h('a', { href: 'https://twitter.com/andrestaltz' }, '@andrestaltz')]);
+}
+
+module.exports = function appView(model) {
+  return Rx.Observable.combineLatest(model.route$, function (route, appVersion, rxVersion) {
+    return h('div', [vrenderHeader(), vrenderContent(route), vrenderFooter()]);
+  });
+};
+},{"cyclejs":6,"rac-marbles/styles/colors":138,"rac-marbles/styles/dimens":139,"rac-marbles/styles/fonts":140,"rac-marbles/styles/utils":141}],119:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+function createContainerStyle(inputStyle) {
+  return {
+    display: 'inline-block',
+    position: 'relative',
+    width: 'calc(8 * ' + inputStyle.thickness + ')',
+    height: inputStyle.height,
+    margin: '0 calc(-4 * ' + inputStyle.thickness + ')'
+  };
+}
+
+function createInnerStyle(inputStyle) {
+  return {
+    width: inputStyle.thickness,
+    height: '50%',
+    marginLeft: 'calc(3.5 * ' + inputStyle.thickness + ')',
+    marginTop: 'calc(' + inputStyle.height + ' / 4.0)',
+    backgroundColor: inputStyle.color
+  };
+}
+
+function render(time, isDraggable, isTall, inputStyle, isHighlighted) {
+  var draggableContainerStyle = {
+    cursor: 'ew-resize'
+  };
+  var innerTallStyle = {
+    height: '100%',
+    marginTop: 0
+  };
+  var containerStyle = createContainerStyle(inputStyle);
+  var innerStyle = createInnerStyle(inputStyle);
+  return h('div.completionRoot', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)({
+      left: '' + time + '%' }, containerStyle, isDraggable ? draggableContainerStyle : {})
+  }, [h('div.completionInner', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)(innerStyle, isDraggable && isHighlighted ? _racMarblesStylesUtils.elevation1Style : null, isTall ? innerTallStyle : null)
+  })]);
+}
+
+function diagramCompletionComponent(interactions, properties) {
+  var startHighlight$ = interactions.get('.completionRoot', 'mouseenter');
+  var stopHighlight$ = interactions.get('.completionRoot', 'mouseleave');
+  var time$ = properties.get('time').startWith(100);
+  var isDraggable$ = properties.get('isDraggable').startWith(false);
+  var isTall$ = properties.get('isTall').startWith(false);
+  var style$ = properties.get('style').startWith({
+    thickness: '2px',
+    height: '10px',
+    color: 'black'
+  });
+  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
+    return true;
+  }), stopHighlight$.map(function () {
+    return false;
+  })).startWith(false);
+
+  return {
+    vtree$: Rx.Observable.combineLatest(time$, isDraggable$, isTall$, style$, isHighlighted$, render)
+  };
+}
+
+module.exports = diagramCompletionComponent;
+},{"cyclejs":6,"rac-marbles/styles/utils":141}],120:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+var Rx = _cyclejs2['default'].Rx;
+
+var mouseMove$ = Rx.Observable.fromEvent(document, 'mousemove');
+var mouseUp$ = Rx.Observable.fromEvent(document, 'mouseup');
+
+function getPxToPercentageRatio(element) {
+  var pxToPercentage = undefined;
+  try {
+    if (element && element.parentElement && element.parentElement.clientWidth) {
+      pxToPercentage = 100 / element.parentElement.clientWidth;
+    } else {
+      throw new Error('Invalid marble parent or parent width.');
+    }
+  } catch (err) {
+    console.warn(err);
+    pxToPercentage = 0.15; // a 'safe enough' magic number
+  }
+  return pxToPercentage;
+}
+
+function makeDeltaTime$(mouseDown$, resultFn) {
+  return mouseDown$.map(function (downevent) {
+    var target = downevent.currentTarget;
+    var pxToPercentage = getPxToPercentageRatio(target);
+    return mouseMove$.takeUntil(mouseUp$).pairwise().map(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2);
+
+      var ev1 = _ref2[0];
+      var ev2 = _ref2[1];
+
+      var dx = ev2.pageX - ev1.pageX; // the drag dx in pixels
+      var deltaTime = dx * pxToPercentage;
+      if (!!resultFn) {
+        return resultFn(deltaTime, target);
+      } else {
+        return deltaTime;
+      }
+    }).filter(function (x) {
+      return x !== 0;
+    });
+  }).concatAll();
+}
+
+function diagramIntent(interactions) {
+  var marbleMouseDown$ = interactions.get('.diagramMarble', 'mousedown');
+  var completionMouseDown$ = interactions.get('.diagramCompletion', 'mousedown');
+
+  return {
+    changeMarbleTime$: makeDeltaTime$(marbleMouseDown$, function (deltaTime, target) {
+      return _immutable2['default'].Map({
+        deltaTime: deltaTime,
+        id: target.attributes['data-marble-id'].value
+      });
+    }),
+    changeEndTime$: makeDeltaTime$(completionMouseDown$)
+  };
+}
+
+module.exports = diagramIntent;
+},{"cyclejs":6,"immutable":115}],121:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var Rx = _cyclejs2['default'].Rx;
+
+function findLargestMarbleTime(diagramData) {
+  return diagramData.get('notifications').max(function (notifA, notifB) {
+    if (notifA.get('time') < notifB.get('time')) {
+      return -1;
+    }
+    if (notifA.get('time') > notifB.get('time')) {
+      return 1;
+    }
+    return 0;
+  }).get('time');
+}
+
+function applyChangeMarbleTime(diagramData, marbleDelta) {
+  return diagramData.set('notifications', diagramData.get('notifications').map(function (notif) {
+    if (String(notif.get('id')) === String(marbleDelta.get('id'))) {
+      var newTime = notif.get('time') + marbleDelta.get('deltaTime');
+      return notif.set('time', newTime);
+    } else {
+      return notif;
+    }
+  }));
+}
+
+function applyChangeEndTime(diagramData, endDelta) {
+  return diagramData.set('end', diagramData.get('end') + endDelta);
+}
+
+function applyMarbleDataConstraints(marbleData) {
+  var newTime = marbleData.get('time');
+  newTime = Math.round(newTime);
+  newTime = Math.min(newTime, 100);
+  newTime = Math.max(0, newTime);
+  return marbleData.set('time', newTime);
+}
+
+function applyEndTimeConstraint(diagramData) {
+  var largestMarbleTime = findLargestMarbleTime(diagramData);
+  var newEndTime = diagramData.get('end');
+  newEndTime = Math.max(newEndTime, largestMarbleTime);
+  newEndTime = Math.round(newEndTime);
+  newEndTime = Math.min(newEndTime, 100);
+  newEndTime = Math.max(0, newEndTime);
+  return diagramData.set('end', newEndTime);
+}
+
+function applyDiagramDataConstraints(diagramData) {
+  var newDiagramData = diagramData.set('notifications', diagramData.get('notifications').map(applyMarbleDataConstraints));
+  newDiagramData = applyEndTimeConstraint(newDiagramData);
+  return newDiagramData;
+}
+
+function newDiagramDataScanner(prev, curr) {
+  var currentIsDiagramData = !!curr && !!curr.get && !!curr.get('notifications');
+  if (!currentIsDiagramData) {
+    var previousIsDiagramData = !!prev && !!prev.get('notifications');
+    if (!previousIsDiagramData) {
+      console.warn('Inconsistency in DiagramComponent.makeNewDiagramData$()');
+    }
+    var diagramData = prev;
+    var changeInstructions = curr;
+    var newDiagramData = undefined;
+    if (typeof changeInstructions === 'number') {
+      newDiagramData = applyChangeEndTime(diagramData, changeInstructions);
+    } else {
+      newDiagramData = applyChangeMarbleTime(diagramData, changeInstructions);
+    }
+    return newDiagramData.set('isInitialData', false);
+  } else {
+    return curr.set('isInitialData', true);
+  }
+}
+
+function makeNewDiagramData$(data$, changeMarbleTime$, changeEndTime$, interactive$) {
+  return data$.merge(changeMarbleTime$).merge(changeEndTime$).scan(newDiagramDataScanner).filter(function (diagramData) {
+    return !diagramData.get('isInitialData');
+  }).map(applyDiagramDataConstraints).pausable(interactive$);
+}
+
+function diagramModel(properties, intent) {
+  var data$ = properties.get('data').distinctUntilChanged().shareReplay(1);
+  return {
+    data$: data$,
+    newData$: makeNewDiagramData$(data$, intent.changeMarbleTime$, intent.changeEndTime$, properties.get('interactive')),
+    isInteractive$: properties.get('interactive').startWith(false)
+  };
+}
+
+module.exports = diagramModel;
+},{"cyclejs":6}],122:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesDimens = require('rac-marbles/styles/dimens');
+
+var _racMarblesStylesDimens2 = _interopRequireDefault(_racMarblesStylesDimens);
+
+var _racMarblesStylesFonts = require('rac-marbles/styles/fonts');
+
+var _racMarblesStylesFonts2 = _interopRequireDefault(_racMarblesStylesFonts);
+
+var _rxtween = require('rxtween');
+
+var _rxtween2 = _interopRequireDefault(_rxtween);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+var MARBLE_WIDTH = 5; // estimate of a marble width, in percentages
+var diagramSidePadding = _racMarblesStylesDimens2['default'].spaceMedium;
+var diagramVerticalMargin = _racMarblesStylesDimens2['default'].spaceLarge;
+var diagramArrowThickness = '2px';
+var diagramArrowSidePadding = _racMarblesStylesDimens2['default'].spaceLarge;
+var diagramArrowHeadSize = '8px';
+var diagramArrowColor = _racMarblesStylesColors2['default'].black;
+var diagramMarbleSize = _racMarblesStylesDimens2['default'].spaceLarge;
+var diagramCompletionHeight = '44px';
+
+var diagramStyle = (0, _racMarblesStylesUtils.mergeStyles)({
+  position: 'relative',
+  display: 'block',
+  width: '100%',
+  height: 'calc(' + diagramMarbleSize + ' + 2 * ' + diagramVerticalMargin + ')',
+  overflow: 'visible',
+  cursor: 'default' }, _racMarblesStylesUtils.textUnselectable);
+
+var diagramBodyStyle = {
+  position: 'absolute',
+  left: 'calc(' + diagramArrowSidePadding + ' + ' + diagramSidePadding + '\n      + (' + diagramMarbleSize + ' / 2))',
+  right: 'calc(' + diagramArrowSidePadding + ' + ' + diagramSidePadding + '\n      + (' + diagramMarbleSize + ' / 2))',
+  top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2))',
+  height: diagramCompletionHeight,
+  marginTop: 'calc(0px - (' + diagramCompletionHeight + ' / 2))'
+};
+
+function renderMarble(marbleData) {
+  var isDraggable = arguments[1] === undefined ? false : arguments[1];
+
+  return h('x-marble.diagramMarble', {
+    key: 'marble' + marbleData.get('id'),
+    data: marbleData,
+    isDraggable: isDraggable,
+    style: { size: diagramMarbleSize }
+  });
+}
+
+function renderCompletion(diagramData) {
+  var isDraggable = arguments[1] === undefined ? false : arguments[1];
+
+  var endTime = diagramData.get('end');
+  var isTall = diagramData.get('notifications').some(function (marbleData) {
+    return Math.abs(marbleData.get('time') - diagramData.get('end')) <= MARBLE_WIDTH * 0.5;
+  });
+  return h('x-diagram-completion.diagramCompletion', {
+    key: 'completion',
+    time: endTime,
+    isDraggable: isDraggable,
+    isTall: isTall,
+    style: {
+      thickness: diagramArrowThickness,
+      color: diagramArrowColor,
+      height: diagramCompletionHeight
+    }
+  });
+}
+
+function renderDiagramArrow() {
+  return h('div.diagramArrow', { style: {
+      backgroundColor: diagramArrowColor,
+      height: diagramArrowThickness,
+      position: 'absolute',
+      top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2))',
+      left: diagramSidePadding,
+      right: diagramSidePadding
+    } });
+}
+
+function renderDiagramArrowHead() {
+  return h('div.diagramArrowHead', { style: {
+      width: 0,
+      height: 0,
+      borderTop: '' + diagramArrowHeadSize + ' solid transparent',
+      borderBottom: '' + diagramArrowHeadSize + ' solid transparent',
+      borderLeft: 'calc(2 * ' + diagramArrowHeadSize + ') solid ' + diagramArrowColor,
+      display: 'inline-block',
+      right: 'calc(' + diagramSidePadding + ' - 1px)',
+      position: 'absolute',
+      top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2)\n      - ' + diagramArrowHeadSize + ' + (' + diagramArrowThickness + ' / 2))'
+    } });
+}
+
+function renderDiagram(data, isInteractive) {
+  var marblesVTree = data.get('notifications').map(function (notification) {
+    return renderMarble(notification, isInteractive);
+  }).toArray(); // from Immutable.List
+  var completionVTree = renderCompletion(data, isInteractive);
+  return h('div', { style: diagramStyle }, [renderDiagramArrow(), renderDiagramArrowHead(), h('div', { style: diagramBodyStyle }, [completionVTree].concat(marblesVTree))]);
+}
+
+function sanitizeDiagramItem(x) {
+  return Math.max(0, Math.min(100, x));
+}
+
+function interpolate(from, to, x) {
+  return from * (1 - x) + to * x;
+}
+
+function animateData$(data$) {
+  var animConf = {
+    from: 0,
+    to: 1,
+    ease: _rxtween2['default'].Power3.easeOut,
+    duration: 600
+  };
+  return data$.flatMapLatest(function (data) {
+    if (!data.get('isFirst')) {
+      return Rx.Observable.just(data);
+    } else {
+      var _ret = (function () {
+        var randomizedNotifs = data.get('notifications').map(function (notif) {
+          return notif.update('time', function (time) {
+            return time - 10 + 20 * Math.random();
+          });
+        });
+
+        return {
+          v: (0, _rxtween2['default'])(animConf).map(function (x) {
+            return data.update('notifications', function (notifications) {
+              return notifications.zipWith(function (n1, n2) {
+                return n1.update('time', function (t1) {
+                  var t2 = n2.get('time');
+                  return interpolate(t2, t1, x);
+                });
+              }, randomizedNotifs);
+            });
+          })
+        };
+      })();
+
+      if (typeof _ret === 'object') return _ret.v;
+    }
+  });
+}
+
+function diagramView(model) {
+  return {
+    vtree$: Rx.Observable.combineLatest(animateData$(model.data$).merge(model.newData$), model.isInteractive$, renderDiagram)
+  };
+}
+
+module.exports = diagramView;
+},{"cyclejs":6,"rac-marbles/styles/colors":138,"rac-marbles/styles/dimens":139,"rac-marbles/styles/fonts":140,"rac-marbles/styles/utils":141,"rxtween":151}],123:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesComponentsDiagramDiagramModel = require('rac-marbles/components/diagram/diagram-model');
+
+var _racMarblesComponentsDiagramDiagramModel2 = _interopRequireDefault(_racMarblesComponentsDiagramDiagramModel);
+
+var _racMarblesComponentsDiagramDiagramView = require('rac-marbles/components/diagram/diagram-view');
+
+var _racMarblesComponentsDiagramDiagramView2 = _interopRequireDefault(_racMarblesComponentsDiagramDiagramView);
+
+var _racMarblesComponentsDiagramDiagramIntent = require('rac-marbles/components/diagram/diagram-intent');
+
+var _racMarblesComponentsDiagramDiagramIntent2 = _interopRequireDefault(_racMarblesComponentsDiagramDiagramIntent);
+
+function DiagramComponent(interactions, properties) {
+  var intent = (0, _racMarblesComponentsDiagramDiagramIntent2['default'])(interactions);
+  var model = (0, _racMarblesComponentsDiagramDiagramModel2['default'])(properties, intent);
+  var view = (0, _racMarblesComponentsDiagramDiagramView2['default'])(model);
+
+  return {
+    vtree$: view.vtree$,
+    newdata$: model.newData$
+  };
+}
+
+module.exports = DiagramComponent;
+},{"cyclejs":6,"rac-marbles/components/diagram/diagram-intent":120,"rac-marbles/components/diagram/diagram-model":121,"rac-marbles/components/diagram/diagram-view":122}],124:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg = require('cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg');
+
+var _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2 = _interopRequireDefault(_cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+function createContainerStyle(inputStyle) {
+  return {
+    width: inputStyle.size,
+    height: inputStyle.size,
+    position: 'relative',
+    display: 'inline-block',
+    margin: 'calc(0px - (' + inputStyle.size + ' / 2))',
+    bottom: 'calc((100% - ' + inputStyle.size + ') / 2)',
+    cursor: 'default'
+  };
+}
+
+function renderSvg(data, isDraggable, inputStyle, isHighlighted) {
+  var POSSIBLE_COLORS = [_racMarblesStylesColors2['default'].blue, _racMarblesStylesColors2['default'].green, _racMarblesStylesColors2['default'].yellow, _racMarblesStylesColors2['default'].red];
+  var color = POSSIBLE_COLORS[data.get('id') % POSSIBLE_COLORS.length];
+  return (0, _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2['default'])('svg.marbleShape', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)({
+      overflow: 'visible',
+      width: inputStyle.size,
+      height: inputStyle.size }, isDraggable && isHighlighted ? _racMarblesStylesUtils.svgElevation1Style : {}),
+    attributes: { viewBox: '0 0 1 1' } }, [(0, _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2['default'])('circle', {
+    style: {
+      stroke: _racMarblesStylesColors2['default'].black,
+      fill: color
+    },
+    attributes: {
+      cx: 0.5, cy: 0.5, r: 0.47,
+      'stroke-width': '0.06px'
+    }
+  })]);
+}
+
+function renderInnerContent(data, inputStyle) {
+  return h('p.marbleContent', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)({
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      top: '0',
+      margin: '0',
+      textAlign: 'center',
+      lineHeight: inputStyle.size }, _racMarblesStylesUtils.textUnselectable)
+  }, '' + data.get('content'));
+}
+
+function render(data, isDraggable, inputStyle, isHighlighted) {
+  var draggableContainerStyle = {
+    cursor: 'ew-resize'
+  };
+  return h('div.marbleRoot', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)({
+      left: '' + data.get('time') + '%',
+      zIndex: data.get('time') }, createContainerStyle(inputStyle), isDraggable ? draggableContainerStyle : null),
+    attributes: { 'data-marble-id': data.get('id') }
+  }, [renderSvg(data, isDraggable, inputStyle, isHighlighted), renderInnerContent(data, inputStyle)]);
+}
+
+function marbleComponent(interactions, properties) {
+  var startHighlight$ = interactions.get('.marbleRoot', 'mouseenter');
+  var stopHighlight$ = interactions.get('.marbleRoot', 'mouseleave');
+  var data$ = properties.get('data');
+  var isDraggable$ = properties.get('isDraggable').startWith(false);
+  var style$ = properties.get('style').startWith({});
+  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
+    return true;
+  }), stopHighlight$.map(function () {
+    return false;
+  })).startWith(false);
+
+  return {
+    vtree$: Rx.Observable.combineLatest(data$, isDraggable$, style$, isHighlighted$, render)
+  };
+}
+
+module.exports = marbleComponent;
+},{"cyclejs":6,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":102,"rac-marbles/styles/colors":138,"rac-marbles/styles/utils":141}],125:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesDimens = require('rac-marbles/styles/dimens');
+
+var _racMarblesStylesDimens2 = _interopRequireDefault(_racMarblesStylesDimens);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+function operatorsMenuLink(interactions, properties) {
+  var startHighlight$ = interactions.get('.link', 'mouseenter').map(function () {
+    return 1;
+  });
+  var stopHighlight$ = interactions.get('.link', 'mouseleave').map(function () {
+    return 1;
+  });
+  var href$ = properties.get('href');
+  var content$ = properties.get('content').startWith('');
+  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
+    return true;
+  }), stopHighlight$.map(function () {
+    return false;
+  })).startWith(false);
+  var highlightingArrow = h('span', {
+    style: {
+      display: 'inline-block',
+      position: 'absolute',
+      right: _racMarblesStylesDimens2['default'].spaceTiny }
+  }, '❯');
+  var vtree$ = Rx.Observable.combineLatest(href$, content$, isHighlighted$, function (href, content, isHighlighted) {
+    return h('a.link', {
+      style: (0, _racMarblesStylesUtils.mergeStyles)({
+        position: 'relative',
+        display: 'block',
+        color: _racMarblesStylesColors2['default'].greyDark }, isHighlighted ? { color: _racMarblesStylesColors2['default'].black } : null),
+      href: href }, [content, isHighlighted ? highlightingArrow : null]);
+  });
+
+  return { vtree$: vtree$ };
+}
+
+module.exports = operatorsMenuLink;
+},{"cyclejs":6,"rac-marbles/styles/colors":138,"rac-marbles/styles/dimens":139,"rac-marbles/styles/utils":141}],126:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesDimens = require('rac-marbles/styles/dimens');
+
+var _racMarblesStylesDimens2 = _interopRequireDefault(_racMarblesStylesDimens);
+
+var _racMarblesDataExamples = require('rac-marbles/data/examples');
+
+var _racMarblesDataExamples2 = _interopRequireDefault(_racMarblesDataExamples);
+
+var _racMarblesDataTodo = require('rac-marbles/data/todo');
+
+var _racMarblesDataTodo2 = _interopRequireDefault(_racMarblesDataTodo);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+/**
+ * Returns a hashmap of category headers to lists of examples in that category.
+ */
+function organizeExamplesByCategory(examples) {
+  var categoryMap = {};
+  for (var key in examples) {
+    if (!examples.hasOwnProperty(key)) continue;
+    var value = examples[key];
+    value.key = key;
+    if (categoryMap.hasOwnProperty(value.category)) {
+      categoryMap[value.category].push(value);
+    } else {
+      categoryMap[value.category] = [value];
+    }
+  }
+  return categoryMap;
+}
+
+var operatorsMenuCategoryStyle = {
+  textTransform: 'uppercase',
+  fontSize: '0.7em',
+  color: _racMarblesStylesColors2['default'].grey,
+  marginTop: _racMarblesStylesDimens2['default'].spaceMedium
+};
+
+var operatorsMenuItemStyle = {
+  color: _racMarblesStylesColors2['default'].greyDark,
+  fontSize: '1rem',
+  lineHeight: '1.6rem'
+};
+
+function renderExampleItem(example) {
+  return h('li', { style: operatorsMenuItemStyle }, h('x-operators-menu-link', {
+    key: 'operatorsMenuLink' + example.key,
+    href: '#' + example.key,
+    content: example.key
+  }));
+}
+
+function renderExampleItems(examples) {
+  var items = [];
+  for (var i = 0; i < examples.length; i++) {
+    var example = examples[i];
+    items.push(renderExampleItem(example));
+  }
+  return items;
+}
+
+function renderExampleCategory(categoryName, isFirstCategory) {
+  return h('li', {
+    style: (0, _racMarblesStylesUtils.mergeStyles)(operatorsMenuCategoryStyle, isFirstCategory ? { marginTop: '0' } : {}) }, '' + categoryName);
+}
+
+function renderMenuContent(categoryMap, todo) {
+  var listItems = [];
+  var isFirstCategory = true;
+  for (var categoryName in categoryMap) {
+    if (!categoryMap.hasOwnProperty(categoryName)) continue;
+    listItems.push(renderExampleCategory(categoryName, isFirstCategory));
+    listItems = listItems.concat(renderExampleItems(categoryMap[categoryName]));
+    isFirstCategory = false;
+  }
+  listItems.push(h('li', { style: operatorsMenuCategoryStyle }, 'TODO'));
+  for (var operator in todo) {
+    listItems.push(h('li', { style: operatorsMenuItemStyle }, operator));
+  }
+  return listItems;
+}
+
+function operatorsMenuComponent() {
+  var categoryMap$ = Rx.Observable.just(organizeExamplesByCategory(_racMarblesDataExamples2['default']));
+
+  return {
+    vtree$: categoryMap$.map(function (categoryMap) {
+      return h('div', { style: {
+          paddingRight: '36px',
+          boxSizing: 'border-box',
+          // 100px is the estimated header page row height
+          height: 'calc(100vh - 100px)' } }, [h('ul', { style: {
+          margin: '0',
+          padding: '0',
+          listStyleType: 'none',
+          overflowY: 'scroll',
+          height: '100%' } }, renderMenuContent(categoryMap, _racMarblesDataTodo2['default']))]);
+    })
+  };
+}
+
+module.exports = operatorsMenuComponent;
+},{"cyclejs":6,"rac-marbles/data/examples":132,"rac-marbles/data/todo":136,"rac-marbles/styles/colors":138,"rac-marbles/styles/dimens":139,"rac-marbles/styles/utils":141}],127:[function(require,module,exports){
+/*
+ * Functions to handle data of input diagrams in the example shown in the
+ * sandbox.
+ */
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _racMarblesComponentsSandboxUtils = require('rac-marbles/components/sandbox/utils');
+
+var _racMarblesComponentsSandboxUtils2 = _interopRequireDefault(_racMarblesComponentsSandboxUtils);
+
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+function getNotifications(diagram) {
+  var last = diagram[diagram.length - 1];
+  if (typeof last === 'number') {
+    return _immutable2['default'].List(diagram.slice(0, -1));
+  } else {
+    return _immutable2['default'].List(diagram);
+  }
+}
+
+function prepareNotification(input, diagramId) {
+  if (input && input.get && typeof input.get('time') !== 'undefined') {
+    return input; // is already a prepared notification
+  }
+  return _immutable2['default'].Map({}).set('time', input.t).set('content', input.d).set('diagramId', diagramId).set('id', _racMarblesComponentsSandboxUtils2['default'].calculateNotificationHash({ time: input.t, content: input.d }));
+}
+
+function prepareInputDiagram(diagram) {
+  var indexInDiagramArray = arguments[1] === undefined ? 0 : arguments[1];
+
+  var last = diagram[diagram.length - 1];
+  return _immutable2['default'].Map({}).set('notifications', getNotifications(diagram).map(function (notification) {
+    return prepareNotification(notification, indexInDiagramArray);
+  })).set('end', typeof last === 'number' ? last : 100).set('id', indexInDiagramArray);
+}
+
+function augmentWithExampleKey(diagramData, exampleKey) {
+  return diagramData.set('example', exampleKey).set('notifications', diagramData.get('notifications').map(function (notif) {
+    return notif.set('example', exampleKey);
+  }));
+}
+
+function replaceDiagramDataIn(diagrams, newDiagramData) {
+  return diagrams.map(function (diagramData) {
+    if (diagramData.get('id') === newDiagramData.get('id')) {
+      return newDiagramData;
+    } else {
+      return diagramData;
+    }
+  });
+}
+
+function makeNewInputDiagramsData$(changeInputDiagram$, inputs$) {
+  return _cyclejs.Rx.Observable.merge(changeInputDiagram$, inputs$).scan(function (prev, curr) {
+    var currentIsDiagramData = !!curr && curr.get && !!curr.get('notifications');
+    if (!currentIsDiagramData) {
+      return curr.set('isInitialData', true);
+    }
+    if (!prev || !prev.get || !Array.isArray(prev.get('diagrams'))) {
+      console.warn('Inconsistency in SandboxComponent.makeNewInputDiagramsData$()');
+    }
+    var inputs = prev;
+    var newDiagramData = curr;
+    return inputs.set('diagrams', replaceDiagramDataIn(inputs.get('diagrams'), newDiagramData)).set('isInitialData', false);
+  }).filter(function (x) {
+    return !x.get('isInitialData');
+  }); // only allow new diagram data
+}
+
+module.exports = {
+  prepareInputDiagram: prepareInputDiagram,
+  augmentWithExampleKey: augmentWithExampleKey,
+  makeNewInputDiagramsData$: makeNewInputDiagramsData$
+};
+},{"cyclejs":6,"immutable":115,"rac-marbles/components/sandbox/utils":130}],128:[function(require,module,exports){
+/*
+ * Functions to handle data of the output diagram in the example shown in the
+ * sandbox.
+ */
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _racMarblesComponentsSandboxUtils = require('rac-marbles/components/sandbox/utils');
+
+var _racMarblesComponentsSandboxUtils2 = _interopRequireDefault(_racMarblesComponentsSandboxUtils);
+
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+var MAX_VT_TIME = 100; // Time of completion
+
+function makeScheduler() {
+  var scheduler = new _cyclejs.Rx.VirtualTimeScheduler(0, function (x, y) {
+    if (x > y) {
+      return 1;
+    }
+    if (x < y) {
+      return -1;
+    }
+    return 0;
+  });
+  scheduler.add = function (absolute, relative) {
+    return absolute + relative;
+  };
+  scheduler.toDateTimeOffset = function (absolute) {
+    return Math.floor(absolute);
+  };
+  scheduler.toRelative = function (timeSpan) {
+    return timeSpan;
+  };
+  return scheduler;
+}
+
+function justIncomplete(item, scheduler) {
+  return new _cyclejs.Rx.AnonymousObservable(function (observer) {
+    return scheduler.schedule(function () {
+      observer.onNext(item);
+    });
+  });
+}
+
+/**
+ * Creates an (virtual time) Rx.Observable from diagram
+ * data (array of data items).
+ */
+function toVTStream(diagramData, scheduler) {
+  var singleMarbleStreams = diagramData.get('notifications').map(function (item) {
+    return justIncomplete(item, scheduler).delay(item.get('time'), scheduler);
+  }).toArray();
+  // Necessary correction to include marbles at time exactly diagramData.end:
+  var correctedEndTime = diagramData.get('end') + 0.01;
+  return _cyclejs.Rx.Observable.merge(singleMarbleStreams).takeUntilWithTime(correctedEndTime, scheduler).publish().refCount();
+}
+
+function getDiagramPromise(stream, scheduler) {
+  var diagram = {};
+  var subject = new _cyclejs.Rx.BehaviorSubject([]);
+  stream.observeOn(scheduler).timestamp(scheduler).map(function (x) {
+    if (typeof x.value !== 'object') {
+      x.value = _immutable2['default'].Map({
+        content: x.value,
+        id: _racMarblesComponentsSandboxUtils2['default'].calculateNotificationContentHash(x.value)
+      });
+    }
+    // converts timestamp to % of MAX_VT_TIME
+    return x.value.set('time', x.timestamp / MAX_VT_TIME * 100);
+  }).reduce(function (acc, x) {
+    acc.push(x);
+    return acc;
+  }, []).subscribe(function onNext(x) {
+    diagram.notifications = x;
+    subject.onNext(diagram);
+  }, function onError(e) {
+    console.warn('Error in the diagram promise stream: ' + e);
+  }, function onComplete() {
+    diagram.end = scheduler.now();
+  });
+  return subject.asObservable();
+}
+
+function toImmutableDiagramData(diagramData) {
+  return _immutable2['default'].Map({}).set('notifications', _immutable2['default'].List(diagramData.notifications).map(_immutable2['default'].Map)).set('end', diagramData.end);
+}
+
+function getOutputDiagram$(example$, inputDiagrams$) {
+  return inputDiagrams$.withLatestFrom(example$, function (diagrams, example) {
+    var vtscheduler = makeScheduler();
+    var inputVTStreams = diagrams.get('diagrams').map(function (diagram) {
+      return toVTStream(diagram, vtscheduler);
+    });
+    var outputVTStream = example.get('apply')(inputVTStreams, vtscheduler);
+    // Necessary hack to include marbles at exactly 100.01
+    var correctedMaxTime = MAX_VT_TIME + 0.02;
+    outputVTStream = outputVTStream.takeUntilWithTime(correctedMaxTime, vtscheduler);
+    var outputDiagram = getDiagramPromise(outputVTStream, vtscheduler, MAX_VT_TIME);
+    vtscheduler.start();
+    return outputDiagram.map(toImmutableDiagramData);
+  }).mergeAll();
+}
+
+module.exports = {
+  getOutputDiagram$: getOutputDiagram$
+};
+},{"cyclejs":6,"immutable":115,"rac-marbles/components/sandbox/utils":130}],129:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var _rxtween = require('rxtween');
+
+var _rxtween2 = _interopRequireDefault(_rxtween);
+
+var _racMarblesDataExamples = require('rac-marbles/data/examples');
+
+var _racMarblesDataExamples2 = _interopRequireDefault(_racMarblesDataExamples);
+
+var _racMarblesComponentsSandboxSandboxInput = require('rac-marbles/components/sandbox/sandbox-input');
+
+var _racMarblesComponentsSandboxSandboxOutput = require('rac-marbles/components/sandbox/sandbox-output');
+
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+var _racMarblesStylesColors = require('rac-marbles/styles/colors');
+
+var _racMarblesStylesColors2 = _interopRequireDefault(_racMarblesStylesColors);
+
+var _racMarblesStylesDimens = require('rac-marbles/styles/dimens');
+
+var _racMarblesStylesDimens2 = _interopRequireDefault(_racMarblesStylesDimens);
+
+var _racMarblesStylesFonts = require('rac-marbles/styles/fonts');
+
+var _racMarblesStylesFonts2 = _interopRequireDefault(_racMarblesStylesFonts);
+
+var _racMarblesStylesUtils = require('rac-marbles/styles/utils');
+
+var Rx = _cyclejs2['default'].Rx;
+var h = _cyclejs2['default'].h;
+
+function renderOperatorLabel(label) {
+  var fontSize = label.length >= 45 ? 1.3 : label.length >= 30 ? 1.5 : 2;
+  var style = {
+    fontFamily: _racMarblesStylesFonts2['default'].fontCode,
+    fontWeight: '400',
+    fontSize: '' + fontSize + 'rem'
+  };
+  return h('span.operatorLabel', { style: style }, label);
+}
+
+function renderOperator(label) {
+  var style = (0, _racMarblesStylesUtils.mergeStyles)({
+    border: '1px solid rgba(0,0,0,0.06)',
+    padding: _racMarblesStylesDimens2['default'].spaceMedium,
+    textAlign: 'center' }, _racMarblesStylesUtils.elevation2Style);
+  return h('div.operatorBox', { style: style }, [_racMarblesStylesUtils.elevation2Before, renderOperatorLabel(label), _racMarblesStylesUtils.elevation2After]);
+}
+
+function getSandboxStyle(width) {
+  return (0, _racMarblesStylesUtils.mergeStyles)({
+    background: _racMarblesStylesColors2['default'].white,
+    width: width,
+    borderRadius: '2px' }, _racMarblesStylesUtils.elevation1Style);
+}
+
+function renderSandbox(inputDiagrams, operatorLabel, outputDiagram, width) {
+  return h('div.sandboxRoot', { style: getSandboxStyle(width) }, [inputDiagrams.get('diagrams').map(function (diagram, index) {
+    return h('x-diagram.sandboxInputDiagram', {
+      key: 'inputDiagram' + index,
+      data: diagram,
+      interactive: true
+    });
+  }), renderOperator(operatorLabel), h('x-diagram.sandboxOutputDiagram', {
+    key: 'outputDiagram',
+    data: outputDiagram,
+    interactive: false
+  })]);
+}
+
+function makeInputDiagrams(example) {
+  return _immutable2['default'].Map({
+    'diagrams': example.get('inputs').map(_racMarblesComponentsSandboxSandboxInput.prepareInputDiagram).map(function (diag) {
+      return (0, _racMarblesComponentsSandboxSandboxInput.augmentWithExampleKey)(diag, example.get('key'));
+    })
+  });
+}
+
+function markAsFirstDiagram(diagram) {
+  return diagram.set('isFirst', true);
+}
+
+function markAllDiagramsAsFirst(diagramsData) {
+  return diagramsData.update('diagrams', function (diagrams) {
+    return diagrams.map(markAsFirstDiagram);
+  });
+}
+
+var isTruthy = function isTruthy(x) {
+  return !!x;
+};
+
+//function animateData$(inputDiagrams$) {
+//  //return diagrams$.doOnNext(diagrams => console.log(diagrams.toJS()));
+//  const animConf = {
+//    from: 10,
+//    to: 0,
+//    ease: RxTween.Power3.easeOut,
+//    duration: 1000
+//  };
+//  return inputDiagrams$.flatMapLatest(inputDiagrams => {
+//    return RxTween(animConf).map(x =>
+//      inputDiagrams.update('diagrams', diagrams =>
+//        diagrams.map(diagram =>
+//          diagram.update('notifications', notifications =>
+//            notifications.map(notif =>
+//              notif.update('time', time => time + x)
+//            )
+//          )
+//        )
+//      )
+//    );
+//  })
+//}
+
+function sandboxComponent(interactions, properties) {
+  var changeInputDiagram$ = interactions.get('.sandboxInputDiagram', 'newdata').map(function (ev) {
+    return ev.data;
+  });
+  var width$ = properties.get('width').startWith('100%');
+  var example$ = properties.get('route').filter(isTruthy).map(function (key) {
+    return _immutable2['default'].Map(_racMarblesDataExamples2['default'][key]).set('key', key);
+  }).shareReplay(1);
+  var inputDiagrams$ = example$.map(makeInputDiagrams).map(markAllDiagramsAsFirst).shareReplay(1);
+  //inputDiagrams$ = animateData$(inputDiagrams$);
+  var newInputDiagrams$ = (0, _racMarblesComponentsSandboxSandboxInput.makeNewInputDiagramsData$)(changeInputDiagram$, inputDiagrams$);
+  //let allInputDiagrams$ = inputDiagrams$.merge(newInputDiagrams$);
+  var operatorLabel$ = example$.map(function (example) {
+    return example.get('label');
+  });
+  var firstOutputDiagram$ = (0, _racMarblesComponentsSandboxSandboxOutput.getOutputDiagram$)(example$, inputDiagrams$).map(markAsFirstDiagram);
+  var newOutputDiagram$ = (0, _racMarblesComponentsSandboxSandboxOutput.getOutputDiagram$)(example$, newInputDiagrams$);
+  var outputDiagram$ = firstOutputDiagram$.merge(newOutputDiagram$);
+
+  return {
+    vtree$: Rx.Observable.combineLatest(inputDiagrams$, operatorLabel$, outputDiagram$, width$, renderSandbox)
+  };
+}
+
+module.exports = sandboxComponent;
+},{"cyclejs":6,"immutable":115,"rac-marbles/components/sandbox/sandbox-input":127,"rac-marbles/components/sandbox/sandbox-output":128,"rac-marbles/data/examples":132,"rac-marbles/styles/colors":138,"rac-marbles/styles/dimens":139,"rac-marbles/styles/fonts":140,"rac-marbles/styles/utils":141,"rxtween":151}],130:[function(require,module,exports){
+/*
+ * Conversion from virtual time streams out to diagram data, and
+ * vice-versa, and related functions.
+ */
+
+"use strict";
+
+function calculateNotificationContentHash(content) {
+  var SMALL_PRIME_1 = 59;
+  var SMALL_PRIME_2 = 97;
+  var SOME_PRIME_NUMBER = 877;
+  if (typeof content === "string") {
+    return content.split("").map(function (x) {
+      return x.charCodeAt(0);
+    }).reduce(function (x, y) {
+      return x * SMALL_PRIME_1 + y * SMALL_PRIME_2;
+    });
+  } else if (typeof content === "number") {
+    return parseInt(content) * SOME_PRIME_NUMBER;
+  } else if (typeof content === "boolean") {
+    return content ? SOME_PRIME_NUMBER : SOME_PRIME_NUMBER * 3;
+  }
+}
+
+function calculateNotificationHash(marbleData) {
+  var SMALL_PRIME = 7;
+  var LARGE_PRIME = 1046527;
+  var MAX = 100000;
+  var contentHash = calculateNotificationContentHash(marbleData.content);
+  return (marbleData.time + contentHash + SMALL_PRIME) * LARGE_PRIME % MAX;
+}
+
+module.exports = {
+  calculateNotificationHash: calculateNotificationHash,
+  calculateNotificationContentHash: calculateNotificationContentHash
+};
+},{}],131:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+  "combineLatest": {
+    "label": "combineLatest((x, y) => \"\" + x + y)",
+    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.combineLatest(inputs[0], inputs[1], function (x, y) {
+        return "" + x.get("content") + y.get("content");
+      });
+    }
+  },
+
+  "sample": {
+    "label": "sample",
+    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 60, d: 4 }, { t: 80, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 33, d: "C" }, { t: 70, d: "D" }, 90]],
+    "apply": function apply(inputs) {
+      return inputs[0].sample(inputs[1]);
+    }
+  },
+
+  "zip": {
+    "label": "zip",
+    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.zip(inputs[0], inputs[1], function (x, y) {
+        return "" + x.get("content") + y.get("content");
+      });
+    }
+  }
+};
+},{"cyclejs":6}],132:[function(require,module,exports){
+/*
+ * The database of all predefined examples in the app.
+ */
+'use strict';
+
+var transformExamples = require('rac-marbles/data/transform-examples');
+var combineExamples = require('rac-marbles/data/combine-examples');
+var filterExamples = require('rac-marbles/data/filter-examples');
+var flattenExamples = require('rac-marbles/data/flatten-examples');
+var mathExamples = require('rac-marbles/data/math-examples');
+
+function merge() {
+  var args = 1 <= arguments.length ? Array.prototype.slice.call(arguments) : [];
+  var result = {};
+  for (var i = 0; i < args.length; i++) {
+    var object = args[i];
+    for (var name in object) {
+      if (!object.hasOwnProperty(name)) continue;
+      result[name] = object[name];
+    }
+  }
+  return result;
+};
+
+function applyCategory(examples, categoryName) {
+  for (var key in examples) {
+    if (!examples.hasOwnProperty(key)) continue;
+    examples[key]['category'] = categoryName;
+  }
+  return examples;
+};
+
+module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(flattenExamples, 'Flatten Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
+},{"rac-marbles/data/combine-examples":131,"rac-marbles/data/filter-examples":133,"rac-marbles/data/flatten-examples":134,"rac-marbles/data/math-examples":135,"rac-marbles/data/transform-examples":137}],133:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+  "filter": {
+    "label": "filter(x => x > 10)",
+    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
+    "apply": function apply(inputs) {
+      return inputs[0].filter(function (x) {
+        return x.get("content") > 10;
+      });
+    }
+  },
+
+  "first": {
+    "label": "first",
+    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
+    "apply": function apply(inputs) {
+      return inputs[0].first();
+    }
+  },
+
+  "skip": {
+    "label": "skip(2)",
+    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }]],
+    "apply": function apply(inputs) {
+      return inputs[0].skip(2);
+    }
+  },
+
+  "take": {
+    "label": "take(2)",
+    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
+    "apply": function apply(inputs, scheduler) {
+      return inputs[0].take(2, scheduler);
+    }
+  },
+
+  "takeLast": {
+    "label": "takeLast(1)",
+    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
+    "apply": function apply(inputs) {
+      return inputs[0].takeLast(1);
+    }
+  },
+
+  "takeUntil": {
+    "label": "takeUntil",
+    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 3 }, { t: 30, d: 4 }, { t: 40, d: 5 }, { t: 50, d: 6 }, { t: 60, d: 7 }, { t: 70, d: 8 }, { t: 80, d: 9 }], [{ t: 45, d: 0 }, { t: 73, d: 0 }]],
+    "apply": function apply(inputs) {
+      return inputs[0].takeUntil(inputs[1]);
+    }
+  }
+};
+},{"cyclejs":6}],134:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+  "concat": {
+    "label": "flatten(.Concat)",
+    "inputs": [[{ t: 0, d: 1 }, { t: 15, d: 1 }, { t: 50, d: 1 }, 57], [{ t: 0, d: 2 }, { t: 8, d: 2 }, 12]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.concat(inputs);
+    }
+  },
+
+  "merge": {
+    "label": "flatten(.Merge)",
+    "inputs": [[{ t: 0, d: 20 }, { t: 15, d: 40 }, { t: 30, d: 60 }, { t: 45, d: 80 }, { t: 60, d: 100 }], [{ t: 37, d: 1 }, { t: 68, d: 1 }]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.merge(inputs);
+    }
+  }
+};
+},{"cyclejs":6}],135:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+  "reduce": {
+    "label": "reduce((x, y) => x + y)",
+    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
+    "apply": function apply(inputs) {
+      return inputs[0].reduce(function (x, y) {
+        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
+      });
+    }
+  }
+};
+},{"cyclejs":6}],136:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+    // Signals
+    "mapError": { "label": "mapError" },
+    "ignoreNil": { "label": "ignoreNil" },
+    "collect": { "label": "collect" },
+    "observeOn": { "label": "observeOn" },
+    "materialize": { "label": "materialize" },
+    "dematerialize": { "label": "dematerialize" },
+    "dematerialize": { "label": "dematerialize" },
+    "sampleOn": { "label": "sampleOn" },
+    "combinePrevious": { "label": "combinePrevious" },
+    "skipRepeats": { "label": "skipRepeats" },
+    "skipWhile": { "label": "skipWhile" },
+    "takeUntilReplacement": { "label": "takeUntilReplacement" },
+    "takeWhile": { "label": "takeWhile" },
+    "try": { "label": "try" },
+    "tryMap": { "label": "tryMap" },
+    "throttle": { "label": "throttle" },
+    "timeoutWithError": { "label": "timeoutWithError" },
+    "promoteErrors": { "label": "promoteErrors" },
+
+    // Producers
+
+    // Uncategorized
+    "timer": { "label": "timer" },
+    "on": { "label": "on" },
+    "startOn": { "label": "startOn" },
+    "times": { "label": "times" },
+    "then": { "label": "then" },
+
+    // Error recovery
+    "catch": { "label": "catch" },
+    "retry": { "label": "retry" },
+
+    // Blocking operators
+    "first": { "label": "first" },
+    "last": { "label": "last" },
+    "single": { "label": "single" },
+    "wait": { "label": "wait" },
+
+    // Flattening operators
+    "latest": { "label": "flatten(.Latest)" },
+    "flatMap": { "label": "flatMap" }
+};
+},{"cyclejs":6}],137:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+  "delay": {
+    "label": "delay",
+    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 1 }]],
+    "apply": function apply(inputs, scheduler) {
+      return inputs[0].delay(20, scheduler);
+    }
+  },
+
+  "map": {
+    "label": "map(x => 10 * x)",
+    "inputs": [[{ t: 10, d: 1 }, { t: 20, d: 2 }, { t: 50, d: 3 }]],
+    "apply": function apply(inputs) {
+      return inputs[0].map(function (x) {
+        return x.set("content", x.get("content") * 10);
+      });
+    }
+  },
+
+  "scan": {
+    "label": "scan((x, y) => x + y)",
+    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }]],
+    "apply": function apply(inputs) {
+      return inputs[0].scan(function (x, y) {
+        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
+      });
+    }
+  }
+};
+},{"cyclejs":6}],138:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = {
+  white: '#FFFFFF',
+  almostWhite: '#ECECEC',
+  greyLight: '#D4D4D4',
+  grey: '#A7A7A7',
+  greyDark: '#7C7C7C',
+  black: '#323232',
+  blue: '#3EA1CB',
+  yellow: '#FFCB46',
+  red: '#FF6946',
+  green: '#82D736'
+};
+module.exports = exports['default'];
+},{}],139:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = {
+  spaceTiny: '5px',
+  spaceSmall: '10px',
+  spaceMedium: '22px',
+  spaceLarge: '32px',
+
+  animationDurationQuick: '100ms',
+  animationDurationNormal: '200ms',
+  animationDurationSlow: '400ms'
+};
+module.exports = exports['default'];
+},{}],140:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = {
+  fontBase: "'Source Sans Pro', sans-serif",
+  fontSpecial: "'Signika', Helvetica, serif",
+  fontCode: "'Source Code Pro', monospace"
+};
+module.exports = exports["default"];
+},{}],141:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+var _cyclejs = require('cyclejs');
+
+var _cyclejs2 = _interopRequireDefault(_cyclejs);
+
+var h = _cyclejs2['default'].h;
+
+var isTruthy = function isTruthy(style) {
+  return !!style;
+};
+
+function mergeStyles() {
+  for (var _len = arguments.length, styleObjects = Array(_len), _key = 0; _key < _len; _key++) {
+    styleObjects[_key] = arguments[_key];
+  }
+
+  return styleObjects.filter(isTruthy).reduce(function (styleA, styleB) {
+    var mapA = _immutable2['default'].Map(styleA);
+    var mapB = _immutable2['default'].Map(styleB);
+    return mapA.merge(mapB).toObject(); // notice B first
+  }, {});
+}
+
+var elevation1Style = {
+  '-webkit-box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)',
+  '-moz-box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)',
+  'box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)'
+};
+
+var elevation2Style = {
+  position: 'relative'
+};
+
+function getElevationPseudoElementStyle(dy, blur, opacity) {
+  return {
+    display: 'block',
+    position: 'absolute',
+    left: '0', top: '0', right: '0', bottom: '0',
+    '-webkit-box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')',
+    '-moz-box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')',
+    'box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')'
+  };
+}
+
+var elevation2Before = h('div', { style: getElevationPseudoElementStyle('2px', '10px', '0.17')
+}, '');
+var elevation2After = h('div', { style: getElevationPseudoElementStyle('2px', '5px', '0.26')
+}, '');
+
+var elevation3Before = h('div', { style: getElevationPseudoElementStyle('6px', '20px', '0.19')
+}, '');
+var elevation3After = h('div', { style: getElevationPseudoElementStyle('6px', '17px', '0.2')
+}, '');
+
+var svgElevation1Style = {
+  '-webkit-filter': 'drop-shadow(0px 3px 2px rgba(0,0,0,0.26))',
+  'filter': 'drop-shadow(0px 3px 2px rgba(0,0,0,0.26))'
+};
+
+var textUnselectable = {
+  '-webkit-user-select': 'none',
+  '-khtml-user-select': 'none',
+  '-moz-user-select': '-moz-none',
+  '-o-user-select': 'none',
+  'user-select': 'none'
+};
+
+exports['default'] = {
+  mergeStyles: mergeStyles,
+  elevation1Style: elevation1Style,
+  elevation2Style: elevation2Style,
+  elevation2Before: elevation2Before,
+  elevation2After: elevation2After,
+  elevation3Before: elevation3Before,
+  elevation3After: elevation3After,
+  svgElevation1Style: svgElevation1Style,
+  textUnselectable: textUnselectable
+};
+module.exports = exports['default'];
+},{"cyclejs":6,"immutable":115}],142:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
@@ -30911,1604 +32505,7 @@ module.exports={
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":3}],118:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var Rx = _cyclejs2['default'].Rx;
-var packageJson = require('package');
-var RxPackageJson = require('cyclejs/node_modules/rx/package.json');
-
-var DEFAULT_EXAMPLE = 'merge';
-
-module.exports = function appModel() {
-  return {
-    route$: Rx.Observable.fromEvent(window, 'hashchange').map(function (hashEvent) {
-      return hashEvent.target.location.hash.replace('#', '');
-    }).startWith(window.location.hash.replace('#', '') || DEFAULT_EXAMPLE),
-    appVersion$: Rx.Observable.just(packageJson.version),
-    rxVersion$: Rx.Observable.just(RxPackageJson.version)
-  };
-};
-},{"cyclejs":6,"cyclejs/node_modules/rx/package.json":65,"package":116}],119:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesDimens = require('rxmarbles/styles/dimens');
-
-var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
-
-var _rxmarblesStylesFonts = require('rxmarbles/styles/fonts');
-
-var _rxmarblesStylesFonts2 = _interopRequireDefault(_rxmarblesStylesFonts);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-var rxmarblesGithubUrl = 'https://github.com/staltz/rxmarbles';
-var rxjsGithubUrl = 'https://github.com/Reactive-Extensions/RxJS';
-
-var pageRowWidth = '1060px';
-var sandboxWidth = '820px';
-
-var pageRowStyle = {
-  position: 'relative',
-  width: pageRowWidth,
-  margin: '0 auto'
-};
-
-var pageRowChildStyle = {
-  display: 'inline-block',
-  marginLeft: '-' + _rxmarblesStylesDimens2['default'].spaceMedium
-};
-
-var pageRowFirstChildStyle = (0, _rxmarblesStylesUtils.mergeStyles)(pageRowChildStyle, {
-  width: 'calc(' + pageRowWidth + ' - ' + sandboxWidth + ' - ' + _rxmarblesStylesDimens2['default'].spaceMedium + ')',
-  marginRight: _rxmarblesStylesDimens2['default'].spaceMedium
-});
-
-var pageRowLastChildStyle = (0, _rxmarblesStylesUtils.mergeStyles)(pageRowChildStyle, {
-  width: sandboxWidth
-});
-
-function vrenderHeader() {
-  return h('div', { style: pageRowStyle }, [h('h1', { style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      fontFamily: _rxmarblesStylesFonts2['default'].fontSpecial,
-      color: _rxmarblesStylesColors2['default'].greyDark }, pageRowFirstChildStyle) }, 'RxMarbles'), h('h3', { style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      color: _rxmarblesStylesColors2['default'].greyDark }, pageRowLastChildStyle) }, 'Interactive diagrams of Rx Observables')]);
-}
-
-function vrenderContent(route) {
-  return h('div', { style: (0, _rxmarblesStylesUtils.mergeStyles)(pageRowStyle, { marginTop: _rxmarblesStylesDimens2['default'].spaceSmall }) }, [h('div', { style: pageRowFirstChildStyle }, h('x-operators-menu', { key: 'operatorsMenu' })), h('div', { style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      position: 'absolute',
-      top: '0' }, pageRowLastChildStyle) }, h('x-sandbox', { key: 'sandbox', route: route, width: '820px' }))]);
-}
-
-function vrenderFooter(appVersion, rxVersion) {
-  return h('section', {
-    style: {
-      position: 'fixed',
-      bottom: '2px',
-      right: _rxmarblesStylesDimens2['default'].spaceMedium,
-      color: _rxmarblesStylesColors2['default'].greyDark
-    }
-  }, [h('a', { href: '' + rxmarblesGithubUrl + '/releases/tag/v' + appVersion }, 'v' + appVersion), ' built on ', h('a', { href: '' + rxjsGithubUrl + '/tree/v' + rxVersion }, 'RxJS v' + rxVersion), ' by ', h('a', { href: 'https://twitter.com/andrestaltz' }, '@andrestaltz')]);
-}
-
-module.exports = function appView(model) {
-  return Rx.Observable.combineLatest(model.route$, model.appVersion$, model.rxVersion$, function (route, appVersion, rxVersion) {
-    return h('div', [vrenderHeader(), vrenderContent(route), vrenderFooter(appVersion, rxVersion)]);
-  });
-};
-},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142}],120:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-function createContainerStyle(inputStyle) {
-  return {
-    display: 'inline-block',
-    position: 'relative',
-    width: 'calc(8 * ' + inputStyle.thickness + ')',
-    height: inputStyle.height,
-    margin: '0 calc(-4 * ' + inputStyle.thickness + ')'
-  };
-}
-
-function createInnerStyle(inputStyle) {
-  return {
-    width: inputStyle.thickness,
-    height: '50%',
-    marginLeft: 'calc(3.5 * ' + inputStyle.thickness + ')',
-    marginTop: 'calc(' + inputStyle.height + ' / 4.0)',
-    backgroundColor: inputStyle.color
-  };
-}
-
-function render(time, isDraggable, isTall, inputStyle, isHighlighted) {
-  var draggableContainerStyle = {
-    cursor: 'ew-resize'
-  };
-  var innerTallStyle = {
-    height: '100%',
-    marginTop: 0
-  };
-  var containerStyle = createContainerStyle(inputStyle);
-  var innerStyle = createInnerStyle(inputStyle);
-  return h('div.completionRoot', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      left: '' + time + '%' }, containerStyle, isDraggable ? draggableContainerStyle : {})
-  }, [h('div.completionInner', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)(innerStyle, isDraggable && isHighlighted ? _rxmarblesStylesUtils.elevation1Style : null, isTall ? innerTallStyle : null)
-  })]);
-}
-
-function diagramCompletionComponent(interactions, properties) {
-  var startHighlight$ = interactions.get('.completionRoot', 'mouseenter');
-  var stopHighlight$ = interactions.get('.completionRoot', 'mouseleave');
-  var time$ = properties.get('time').startWith(100);
-  var isDraggable$ = properties.get('isDraggable').startWith(false);
-  var isTall$ = properties.get('isTall').startWith(false);
-  var style$ = properties.get('style').startWith({
-    thickness: '2px',
-    height: '10px',
-    color: 'black'
-  });
-  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
-    return true;
-  }), stopHighlight$.map(function () {
-    return false;
-  })).startWith(false);
-
-  return {
-    vtree$: Rx.Observable.combineLatest(time$, isDraggable$, isTall$, style$, isHighlighted$, render)
-  };
-}
-
-module.exports = diagramCompletionComponent;
-},{"cyclejs":6,"rxmarbles/styles/utils":142}],121:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-var Rx = _cyclejs2['default'].Rx;
-
-var mouseMove$ = Rx.Observable.fromEvent(document, 'mousemove');
-var mouseUp$ = Rx.Observable.fromEvent(document, 'mouseup');
-
-function getPxToPercentageRatio(element) {
-  var pxToPercentage = undefined;
-  try {
-    if (element && element.parentElement && element.parentElement.clientWidth) {
-      pxToPercentage = 100 / element.parentElement.clientWidth;
-    } else {
-      throw new Error('Invalid marble parent or parent width.');
-    }
-  } catch (err) {
-    console.warn(err);
-    pxToPercentage = 0.15; // a 'safe enough' magic number
-  }
-  return pxToPercentage;
-}
-
-function makeDeltaTime$(mouseDown$, resultFn) {
-  return mouseDown$.map(function (downevent) {
-    var target = downevent.currentTarget;
-    var pxToPercentage = getPxToPercentageRatio(target);
-    return mouseMove$.takeUntil(mouseUp$).pairwise().map(function (_ref) {
-      var _ref2 = _slicedToArray(_ref, 2);
-
-      var ev1 = _ref2[0];
-      var ev2 = _ref2[1];
-
-      var dx = ev2.pageX - ev1.pageX; // the drag dx in pixels
-      var deltaTime = dx * pxToPercentage;
-      if (!!resultFn) {
-        return resultFn(deltaTime, target);
-      } else {
-        return deltaTime;
-      }
-    }).filter(function (x) {
-      return x !== 0;
-    });
-  }).concatAll();
-}
-
-function diagramIntent(interactions) {
-  var marbleMouseDown$ = interactions.get('.diagramMarble', 'mousedown');
-  var completionMouseDown$ = interactions.get('.diagramCompletion', 'mousedown');
-
-  return {
-    changeMarbleTime$: makeDeltaTime$(marbleMouseDown$, function (deltaTime, target) {
-      return _immutable2['default'].Map({
-        deltaTime: deltaTime,
-        id: target.attributes['data-marble-id'].value
-      });
-    }),
-    changeEndTime$: makeDeltaTime$(completionMouseDown$)
-  };
-}
-
-module.exports = diagramIntent;
-},{"cyclejs":6,"immutable":115}],122:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var Rx = _cyclejs2['default'].Rx;
-
-function findLargestMarbleTime(diagramData) {
-  return diagramData.get('notifications').max(function (notifA, notifB) {
-    if (notifA.get('time') < notifB.get('time')) {
-      return -1;
-    }
-    if (notifA.get('time') > notifB.get('time')) {
-      return 1;
-    }
-    return 0;
-  }).get('time');
-}
-
-function applyChangeMarbleTime(diagramData, marbleDelta) {
-  return diagramData.set('notifications', diagramData.get('notifications').map(function (notif) {
-    if (String(notif.get('id')) === String(marbleDelta.get('id'))) {
-      var newTime = notif.get('time') + marbleDelta.get('deltaTime');
-      return notif.set('time', newTime);
-    } else {
-      return notif;
-    }
-  }));
-}
-
-function applyChangeEndTime(diagramData, endDelta) {
-  return diagramData.set('end', diagramData.get('end') + endDelta);
-}
-
-function applyMarbleDataConstraints(marbleData) {
-  var newTime = marbleData.get('time');
-  newTime = Math.round(newTime);
-  newTime = Math.min(newTime, 100);
-  newTime = Math.max(0, newTime);
-  return marbleData.set('time', newTime);
-}
-
-function applyEndTimeConstraint(diagramData) {
-  var largestMarbleTime = findLargestMarbleTime(diagramData);
-  var newEndTime = diagramData.get('end');
-  newEndTime = Math.max(newEndTime, largestMarbleTime);
-  newEndTime = Math.round(newEndTime);
-  newEndTime = Math.min(newEndTime, 100);
-  newEndTime = Math.max(0, newEndTime);
-  return diagramData.set('end', newEndTime);
-}
-
-function applyDiagramDataConstraints(diagramData) {
-  var newDiagramData = diagramData.set('notifications', diagramData.get('notifications').map(applyMarbleDataConstraints));
-  newDiagramData = applyEndTimeConstraint(newDiagramData);
-  return newDiagramData;
-}
-
-function newDiagramDataScanner(prev, curr) {
-  var currentIsDiagramData = !!curr && !!curr.get && !!curr.get('notifications');
-  if (!currentIsDiagramData) {
-    var previousIsDiagramData = !!prev && !!prev.get('notifications');
-    if (!previousIsDiagramData) {
-      console.warn('Inconsistency in DiagramComponent.makeNewDiagramData$()');
-    }
-    var diagramData = prev;
-    var changeInstructions = curr;
-    var newDiagramData = undefined;
-    if (typeof changeInstructions === 'number') {
-      newDiagramData = applyChangeEndTime(diagramData, changeInstructions);
-    } else {
-      newDiagramData = applyChangeMarbleTime(diagramData, changeInstructions);
-    }
-    return newDiagramData.set('isInitialData', false);
-  } else {
-    return curr.set('isInitialData', true);
-  }
-}
-
-function makeNewDiagramData$(data$, changeMarbleTime$, changeEndTime$, interactive$) {
-  return data$.merge(changeMarbleTime$).merge(changeEndTime$).scan(newDiagramDataScanner).filter(function (diagramData) {
-    return !diagramData.get('isInitialData');
-  }).map(applyDiagramDataConstraints).pausable(interactive$);
-}
-
-function diagramModel(properties, intent) {
-  var data$ = properties.get('data').distinctUntilChanged().shareReplay(1);
-  return {
-    data$: data$,
-    newData$: makeNewDiagramData$(data$, intent.changeMarbleTime$, intent.changeEndTime$, properties.get('interactive')),
-    isInteractive$: properties.get('interactive').startWith(false)
-  };
-}
-
-module.exports = diagramModel;
-},{"cyclejs":6}],123:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesDimens = require('rxmarbles/styles/dimens');
-
-var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
-
-var _rxmarblesStylesFonts = require('rxmarbles/styles/fonts');
-
-var _rxmarblesStylesFonts2 = _interopRequireDefault(_rxmarblesStylesFonts);
-
-var _rxtween = require('rxtween');
-
-var _rxtween2 = _interopRequireDefault(_rxtween);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-var MARBLE_WIDTH = 5; // estimate of a marble width, in percentages
-var diagramSidePadding = _rxmarblesStylesDimens2['default'].spaceMedium;
-var diagramVerticalMargin = _rxmarblesStylesDimens2['default'].spaceLarge;
-var diagramArrowThickness = '2px';
-var diagramArrowSidePadding = _rxmarblesStylesDimens2['default'].spaceLarge;
-var diagramArrowHeadSize = '8px';
-var diagramArrowColor = _rxmarblesStylesColors2['default'].black;
-var diagramMarbleSize = _rxmarblesStylesDimens2['default'].spaceLarge;
-var diagramCompletionHeight = '44px';
-
-var diagramStyle = (0, _rxmarblesStylesUtils.mergeStyles)({
-  position: 'relative',
-  display: 'block',
-  width: '100%',
-  height: 'calc(' + diagramMarbleSize + ' + 2 * ' + diagramVerticalMargin + ')',
-  overflow: 'visible',
-  cursor: 'default' }, _rxmarblesStylesUtils.textUnselectable);
-
-var diagramBodyStyle = {
-  position: 'absolute',
-  left: 'calc(' + diagramArrowSidePadding + ' + ' + diagramSidePadding + '\n      + (' + diagramMarbleSize + ' / 2))',
-  right: 'calc(' + diagramArrowSidePadding + ' + ' + diagramSidePadding + '\n      + (' + diagramMarbleSize + ' / 2))',
-  top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2))',
-  height: diagramCompletionHeight,
-  marginTop: 'calc(0px - (' + diagramCompletionHeight + ' / 2))'
-};
-
-function renderMarble(marbleData) {
-  var isDraggable = arguments[1] === undefined ? false : arguments[1];
-
-  return h('x-marble.diagramMarble', {
-    key: 'marble' + marbleData.get('id'),
-    data: marbleData,
-    isDraggable: isDraggable,
-    style: { size: diagramMarbleSize }
-  });
-}
-
-function renderCompletion(diagramData) {
-  var isDraggable = arguments[1] === undefined ? false : arguments[1];
-
-  var endTime = diagramData.get('end');
-  var isTall = diagramData.get('notifications').some(function (marbleData) {
-    return Math.abs(marbleData.get('time') - diagramData.get('end')) <= MARBLE_WIDTH * 0.5;
-  });
-  return h('x-diagram-completion.diagramCompletion', {
-    key: 'completion',
-    time: endTime,
-    isDraggable: isDraggable,
-    isTall: isTall,
-    style: {
-      thickness: diagramArrowThickness,
-      color: diagramArrowColor,
-      height: diagramCompletionHeight
-    }
-  });
-}
-
-function renderDiagramArrow() {
-  return h('div.diagramArrow', { style: {
-      backgroundColor: diagramArrowColor,
-      height: diagramArrowThickness,
-      position: 'absolute',
-      top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2))',
-      left: diagramSidePadding,
-      right: diagramSidePadding
-    } });
-}
-
-function renderDiagramArrowHead() {
-  return h('div.diagramArrowHead', { style: {
-      width: 0,
-      height: 0,
-      borderTop: '' + diagramArrowHeadSize + ' solid transparent',
-      borderBottom: '' + diagramArrowHeadSize + ' solid transparent',
-      borderLeft: 'calc(2 * ' + diagramArrowHeadSize + ') solid ' + diagramArrowColor,
-      display: 'inline-block',
-      right: 'calc(' + diagramSidePadding + ' - 1px)',
-      position: 'absolute',
-      top: 'calc(' + diagramVerticalMargin + ' + (' + diagramMarbleSize + ' / 2)\n      - ' + diagramArrowHeadSize + ' + (' + diagramArrowThickness + ' / 2))'
-    } });
-}
-
-function renderDiagram(data, isInteractive) {
-  var marblesVTree = data.get('notifications').map(function (notification) {
-    return renderMarble(notification, isInteractive);
-  }).toArray(); // from Immutable.List
-  var completionVTree = renderCompletion(data, isInteractive);
-  return h('div', { style: diagramStyle }, [renderDiagramArrow(), renderDiagramArrowHead(), h('div', { style: diagramBodyStyle }, [completionVTree].concat(marblesVTree))]);
-}
-
-function sanitizeDiagramItem(x) {
-  return Math.max(0, Math.min(100, x));
-}
-
-function interpolate(from, to, x) {
-  return from * (1 - x) + to * x;
-}
-
-function animateData$(data$) {
-  var animConf = {
-    from: 0,
-    to: 1,
-    ease: _rxtween2['default'].Power3.easeOut,
-    duration: 600
-  };
-  return data$.flatMapLatest(function (data) {
-    if (!data.get('isFirst')) {
-      return Rx.Observable.just(data);
-    } else {
-      var _ret = (function () {
-        var randomizedNotifs = data.get('notifications').map(function (notif) {
-          return notif.update('time', function (time) {
-            return time - 10 + 20 * Math.random();
-          });
-        });
-
-        return {
-          v: (0, _rxtween2['default'])(animConf).map(function (x) {
-            return data.update('notifications', function (notifications) {
-              return notifications.zipWith(function (n1, n2) {
-                return n1.update('time', function (t1) {
-                  var t2 = n2.get('time');
-                  return interpolate(t2, t1, x);
-                });
-              }, randomizedNotifs);
-            });
-          })
-        };
-      })();
-
-      if (typeof _ret === 'object') return _ret.v;
-    }
-  });
-}
-
-function diagramView(model) {
-  return {
-    vtree$: Rx.Observable.combineLatest(animateData$(model.data$).merge(model.newData$), model.isInteractive$, renderDiagram)
-  };
-}
-
-module.exports = diagramView;
-},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142,"rxtween":151}],124:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesComponentsDiagramDiagramModel = require('rxmarbles/components/diagram/diagram-model');
-
-var _rxmarblesComponentsDiagramDiagramModel2 = _interopRequireDefault(_rxmarblesComponentsDiagramDiagramModel);
-
-var _rxmarblesComponentsDiagramDiagramView = require('rxmarbles/components/diagram/diagram-view');
-
-var _rxmarblesComponentsDiagramDiagramView2 = _interopRequireDefault(_rxmarblesComponentsDiagramDiagramView);
-
-var _rxmarblesComponentsDiagramDiagramIntent = require('rxmarbles/components/diagram/diagram-intent');
-
-var _rxmarblesComponentsDiagramDiagramIntent2 = _interopRequireDefault(_rxmarblesComponentsDiagramDiagramIntent);
-
-function DiagramComponent(interactions, properties) {
-  var intent = (0, _rxmarblesComponentsDiagramDiagramIntent2['default'])(interactions);
-  var model = (0, _rxmarblesComponentsDiagramDiagramModel2['default'])(properties, intent);
-  var view = (0, _rxmarblesComponentsDiagramDiagramView2['default'])(model);
-
-  return {
-    vtree$: view.vtree$,
-    newdata$: model.newData$
-  };
-}
-
-module.exports = DiagramComponent;
-},{"cyclejs":6,"rxmarbles/components/diagram/diagram-intent":121,"rxmarbles/components/diagram/diagram-model":122,"rxmarbles/components/diagram/diagram-view":123}],125:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg = require('cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg');
-
-var _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2 = _interopRequireDefault(_cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-function createContainerStyle(inputStyle) {
-  return {
-    width: inputStyle.size,
-    height: inputStyle.size,
-    position: 'relative',
-    display: 'inline-block',
-    margin: 'calc(0px - (' + inputStyle.size + ' / 2))',
-    bottom: 'calc((100% - ' + inputStyle.size + ') / 2)',
-    cursor: 'default'
-  };
-}
-
-function renderSvg(data, isDraggable, inputStyle, isHighlighted) {
-  var POSSIBLE_COLORS = [_rxmarblesStylesColors2['default'].blue, _rxmarblesStylesColors2['default'].green, _rxmarblesStylesColors2['default'].yellow, _rxmarblesStylesColors2['default'].red];
-  var color = POSSIBLE_COLORS[data.get('id') % POSSIBLE_COLORS.length];
-  return (0, _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2['default'])('svg.marbleShape', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      overflow: 'visible',
-      width: inputStyle.size,
-      height: inputStyle.size }, isDraggable && isHighlighted ? _rxmarblesStylesUtils.svgElevation1Style : {}),
-    attributes: { viewBox: '0 0 1 1' } }, [(0, _cyclejsNode_modulesVirtualDomVirtualHyperscriptSvg2['default'])('circle', {
-    style: {
-      stroke: _rxmarblesStylesColors2['default'].black,
-      fill: color
-    },
-    attributes: {
-      cx: 0.5, cy: 0.5, r: 0.47,
-      'stroke-width': '0.06px'
-    }
-  })]);
-}
-
-function renderInnerContent(data, inputStyle) {
-  return h('p.marbleContent', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      top: '0',
-      margin: '0',
-      textAlign: 'center',
-      lineHeight: inputStyle.size }, _rxmarblesStylesUtils.textUnselectable)
-  }, '' + data.get('content'));
-}
-
-function render(data, isDraggable, inputStyle, isHighlighted) {
-  var draggableContainerStyle = {
-    cursor: 'ew-resize'
-  };
-  return h('div.marbleRoot', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)({
-      left: '' + data.get('time') + '%',
-      zIndex: data.get('time') }, createContainerStyle(inputStyle), isDraggable ? draggableContainerStyle : null),
-    attributes: { 'data-marble-id': data.get('id') }
-  }, [renderSvg(data, isDraggable, inputStyle, isHighlighted), renderInnerContent(data, inputStyle)]);
-}
-
-function marbleComponent(interactions, properties) {
-  var startHighlight$ = interactions.get('.marbleRoot', 'mouseenter');
-  var stopHighlight$ = interactions.get('.marbleRoot', 'mouseleave');
-  var data$ = properties.get('data');
-  var isDraggable$ = properties.get('isDraggable').startWith(false);
-  var style$ = properties.get('style').startWith({});
-  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
-    return true;
-  }), stopHighlight$.map(function () {
-    return false;
-  })).startWith(false);
-
-  return {
-    vtree$: Rx.Observable.combineLatest(data$, isDraggable$, style$, isHighlighted$, render)
-  };
-}
-
-module.exports = marbleComponent;
-},{"cyclejs":6,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":102,"rxmarbles/styles/colors":139,"rxmarbles/styles/utils":142}],126:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesDimens = require('rxmarbles/styles/dimens');
-
-var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-function operatorsMenuLink(interactions, properties) {
-  var startHighlight$ = interactions.get('.link', 'mouseenter').map(function () {
-    return 1;
-  });
-  var stopHighlight$ = interactions.get('.link', 'mouseleave').map(function () {
-    return 1;
-  });
-  var href$ = properties.get('href');
-  var content$ = properties.get('content').startWith('');
-  var isHighlighted$ = Rx.Observable.merge(startHighlight$.map(function () {
-    return true;
-  }), stopHighlight$.map(function () {
-    return false;
-  })).startWith(false);
-  var highlightingArrow = h('span', {
-    style: {
-      display: 'inline-block',
-      position: 'absolute',
-      right: _rxmarblesStylesDimens2['default'].spaceTiny }
-  }, '❯');
-  var vtree$ = Rx.Observable.combineLatest(href$, content$, isHighlighted$, function (href, content, isHighlighted) {
-    return h('a.link', {
-      style: (0, _rxmarblesStylesUtils.mergeStyles)({
-        position: 'relative',
-        display: 'block',
-        color: _rxmarblesStylesColors2['default'].greyDark }, isHighlighted ? { color: _rxmarblesStylesColors2['default'].black } : null),
-      href: href }, [content, isHighlighted ? highlightingArrow : null]);
-  });
-
-  return { vtree$: vtree$ };
-}
-
-module.exports = operatorsMenuLink;
-},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/utils":142}],127:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesDimens = require('rxmarbles/styles/dimens');
-
-var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
-
-var _rxmarblesDataExamples = require('rxmarbles/data/examples');
-
-var _rxmarblesDataExamples2 = _interopRequireDefault(_rxmarblesDataExamples);
-
-var _rxmarblesDataTodo = require('rxmarbles/data/todo');
-
-var _rxmarblesDataTodo2 = _interopRequireDefault(_rxmarblesDataTodo);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-/**
- * Returns a hashmap of category headers to lists of examples in that category.
- */
-function organizeExamplesByCategory(examples) {
-  var categoryMap = {};
-  for (var key in examples) {
-    if (!examples.hasOwnProperty(key)) continue;
-    var value = examples[key];
-    value.key = key;
-    if (categoryMap.hasOwnProperty(value.category)) {
-      categoryMap[value.category].push(value);
-    } else {
-      categoryMap[value.category] = [value];
-    }
-  }
-  return categoryMap;
-}
-
-var operatorsMenuCategoryStyle = {
-  textTransform: 'uppercase',
-  fontSize: '0.7em',
-  color: _rxmarblesStylesColors2['default'].grey,
-  marginTop: _rxmarblesStylesDimens2['default'].spaceMedium
-};
-
-var operatorsMenuItemStyle = {
-  color: _rxmarblesStylesColors2['default'].greyDark,
-  fontSize: '1rem',
-  lineHeight: '1.6rem'
-};
-
-function renderExampleItem(example) {
-  return h('li', { style: operatorsMenuItemStyle }, h('x-operators-menu-link', {
-    key: 'operatorsMenuLink' + example.key,
-    href: '#' + example.key,
-    content: example.key
-  }));
-}
-
-function renderExampleItems(examples) {
-  var items = [];
-  for (var i = 0; i < examples.length; i++) {
-    var example = examples[i];
-    items.push(renderExampleItem(example));
-  }
-  return items;
-}
-
-function renderExampleCategory(categoryName, isFirstCategory) {
-  return h('li', {
-    style: (0, _rxmarblesStylesUtils.mergeStyles)(operatorsMenuCategoryStyle, isFirstCategory ? { marginTop: '0' } : {}) }, '' + categoryName);
-}
-
-function renderMenuContent(categoryMap, todo) {
-  var listItems = [];
-  var isFirstCategory = true;
-  for (var categoryName in categoryMap) {
-    if (!categoryMap.hasOwnProperty(categoryName)) continue;
-    listItems.push(renderExampleCategory(categoryName, isFirstCategory));
-    listItems = listItems.concat(renderExampleItems(categoryMap[categoryName]));
-    isFirstCategory = false;
-  }
-  listItems.push(h('li', { style: operatorsMenuCategoryStyle }, 'TODO'));
-  for (var operator in todo) {
-    listItems.push(h('li', { style: operatorsMenuItemStyle }, operator));
-  }
-  return listItems;
-}
-
-function operatorsMenuComponent() {
-  var categoryMap$ = Rx.Observable.just(organizeExamplesByCategory(_rxmarblesDataExamples2['default']));
-
-  return {
-    vtree$: categoryMap$.map(function (categoryMap) {
-      return h('div', { style: {
-          paddingRight: '36px',
-          boxSizing: 'border-box',
-          // 100px is the estimated header page row height
-          height: 'calc(100vh - 100px)' } }, [h('ul', { style: {
-          margin: '0',
-          padding: '0',
-          listStyleType: 'none',
-          overflowY: 'scroll',
-          height: '100%' } }, renderMenuContent(categoryMap, _rxmarblesDataTodo2['default']))]);
-    })
-  };
-}
-
-module.exports = operatorsMenuComponent;
-},{"cyclejs":6,"rxmarbles/data/examples":133,"rxmarbles/data/todo":137,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/utils":142}],128:[function(require,module,exports){
-/*
- * Functions to handle data of input diagrams in the example shown in the
- * sandbox.
- */
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _rxmarblesComponentsSandboxUtils = require('rxmarbles/components/sandbox/utils');
-
-var _rxmarblesComponentsSandboxUtils2 = _interopRequireDefault(_rxmarblesComponentsSandboxUtils);
-
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-function getNotifications(diagram) {
-  var last = diagram[diagram.length - 1];
-  if (typeof last === 'number') {
-    return _immutable2['default'].List(diagram.slice(0, -1));
-  } else {
-    return _immutable2['default'].List(diagram);
-  }
-}
-
-function prepareNotification(input, diagramId) {
-  if (input && input.get && typeof input.get('time') !== 'undefined') {
-    return input; // is already a prepared notification
-  }
-  return _immutable2['default'].Map({}).set('time', input.t).set('content', input.d).set('diagramId', diagramId).set('id', _rxmarblesComponentsSandboxUtils2['default'].calculateNotificationHash({ time: input.t, content: input.d }));
-}
-
-function prepareInputDiagram(diagram) {
-  var indexInDiagramArray = arguments[1] === undefined ? 0 : arguments[1];
-
-  var last = diagram[diagram.length - 1];
-  return _immutable2['default'].Map({}).set('notifications', getNotifications(diagram).map(function (notification) {
-    return prepareNotification(notification, indexInDiagramArray);
-  })).set('end', typeof last === 'number' ? last : 100).set('id', indexInDiagramArray);
-}
-
-function augmentWithExampleKey(diagramData, exampleKey) {
-  return diagramData.set('example', exampleKey).set('notifications', diagramData.get('notifications').map(function (notif) {
-    return notif.set('example', exampleKey);
-  }));
-}
-
-function replaceDiagramDataIn(diagrams, newDiagramData) {
-  return diagrams.map(function (diagramData) {
-    if (diagramData.get('id') === newDiagramData.get('id')) {
-      return newDiagramData;
-    } else {
-      return diagramData;
-    }
-  });
-}
-
-function makeNewInputDiagramsData$(changeInputDiagram$, inputs$) {
-  return _cyclejs.Rx.Observable.merge(changeInputDiagram$, inputs$).scan(function (prev, curr) {
-    var currentIsDiagramData = !!curr && curr.get && !!curr.get('notifications');
-    if (!currentIsDiagramData) {
-      return curr.set('isInitialData', true);
-    }
-    if (!prev || !prev.get || !Array.isArray(prev.get('diagrams'))) {
-      console.warn('Inconsistency in SandboxComponent.makeNewInputDiagramsData$()');
-    }
-    var inputs = prev;
-    var newDiagramData = curr;
-    return inputs.set('diagrams', replaceDiagramDataIn(inputs.get('diagrams'), newDiagramData)).set('isInitialData', false);
-  }).filter(function (x) {
-    return !x.get('isInitialData');
-  }); // only allow new diagram data
-}
-
-module.exports = {
-  prepareInputDiagram: prepareInputDiagram,
-  augmentWithExampleKey: augmentWithExampleKey,
-  makeNewInputDiagramsData$: makeNewInputDiagramsData$
-};
-},{"cyclejs":6,"immutable":115,"rxmarbles/components/sandbox/utils":131}],129:[function(require,module,exports){
-/*
- * Functions to handle data of the output diagram in the example shown in the
- * sandbox.
- */
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _rxmarblesComponentsSandboxUtils = require('rxmarbles/components/sandbox/utils');
-
-var _rxmarblesComponentsSandboxUtils2 = _interopRequireDefault(_rxmarblesComponentsSandboxUtils);
-
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-var MAX_VT_TIME = 100; // Time of completion
-
-function makeScheduler() {
-  var scheduler = new _cyclejs.Rx.VirtualTimeScheduler(0, function (x, y) {
-    if (x > y) {
-      return 1;
-    }
-    if (x < y) {
-      return -1;
-    }
-    return 0;
-  });
-  scheduler.add = function (absolute, relative) {
-    return absolute + relative;
-  };
-  scheduler.toDateTimeOffset = function (absolute) {
-    return Math.floor(absolute);
-  };
-  scheduler.toRelative = function (timeSpan) {
-    return timeSpan;
-  };
-  return scheduler;
-}
-
-function justIncomplete(item, scheduler) {
-  return new _cyclejs.Rx.AnonymousObservable(function (observer) {
-    return scheduler.schedule(function () {
-      observer.onNext(item);
-    });
-  });
-}
-
-/**
- * Creates an (virtual time) Rx.Observable from diagram
- * data (array of data items).
- */
-function toVTStream(diagramData, scheduler) {
-  var singleMarbleStreams = diagramData.get('notifications').map(function (item) {
-    return justIncomplete(item, scheduler).delay(item.get('time'), scheduler);
-  }).toArray();
-  // Necessary correction to include marbles at time exactly diagramData.end:
-  var correctedEndTime = diagramData.get('end') + 0.01;
-  return _cyclejs.Rx.Observable.merge(singleMarbleStreams).takeUntilWithTime(correctedEndTime, scheduler).publish().refCount();
-}
-
-function getDiagramPromise(stream, scheduler) {
-  var diagram = {};
-  var subject = new _cyclejs.Rx.BehaviorSubject([]);
-  stream.observeOn(scheduler).timestamp(scheduler).map(function (x) {
-    if (typeof x.value !== 'object') {
-      x.value = _immutable2['default'].Map({
-        content: x.value,
-        id: _rxmarblesComponentsSandboxUtils2['default'].calculateNotificationContentHash(x.value)
-      });
-    }
-    // converts timestamp to % of MAX_VT_TIME
-    return x.value.set('time', x.timestamp / MAX_VT_TIME * 100);
-  }).reduce(function (acc, x) {
-    acc.push(x);
-    return acc;
-  }, []).subscribe(function onNext(x) {
-    diagram.notifications = x;
-    subject.onNext(diagram);
-  }, function onError(e) {
-    console.warn('Error in the diagram promise stream: ' + e);
-  }, function onComplete() {
-    diagram.end = scheduler.now();
-  });
-  return subject.asObservable();
-}
-
-function toImmutableDiagramData(diagramData) {
-  return _immutable2['default'].Map({}).set('notifications', _immutable2['default'].List(diagramData.notifications).map(_immutable2['default'].Map)).set('end', diagramData.end);
-}
-
-function getOutputDiagram$(example$, inputDiagrams$) {
-  return inputDiagrams$.withLatestFrom(example$, function (diagrams, example) {
-    var vtscheduler = makeScheduler();
-    var inputVTStreams = diagrams.get('diagrams').map(function (diagram) {
-      return toVTStream(diagram, vtscheduler);
-    });
-    var outputVTStream = example.get('apply')(inputVTStreams, vtscheduler);
-    // Necessary hack to include marbles at exactly 100.01
-    var correctedMaxTime = MAX_VT_TIME + 0.02;
-    outputVTStream = outputVTStream.takeUntilWithTime(correctedMaxTime, vtscheduler);
-    var outputDiagram = getDiagramPromise(outputVTStream, vtscheduler, MAX_VT_TIME);
-    vtscheduler.start();
-    return outputDiagram.map(toImmutableDiagramData);
-  }).mergeAll();
-}
-
-module.exports = {
-  getOutputDiagram$: getOutputDiagram$
-};
-},{"cyclejs":6,"immutable":115,"rxmarbles/components/sandbox/utils":131}],130:[function(require,module,exports){
-'use strict';
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var _rxtween = require('rxtween');
-
-var _rxtween2 = _interopRequireDefault(_rxtween);
-
-var _rxmarblesDataExamples = require('rxmarbles/data/examples');
-
-var _rxmarblesDataExamples2 = _interopRequireDefault(_rxmarblesDataExamples);
-
-var _rxmarblesComponentsSandboxSandboxInput = require('rxmarbles/components/sandbox/sandbox-input');
-
-var _rxmarblesComponentsSandboxSandboxOutput = require('rxmarbles/components/sandbox/sandbox-output');
-
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-var _rxmarblesStylesColors = require('rxmarbles/styles/colors');
-
-var _rxmarblesStylesColors2 = _interopRequireDefault(_rxmarblesStylesColors);
-
-var _rxmarblesStylesDimens = require('rxmarbles/styles/dimens');
-
-var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
-
-var _rxmarblesStylesFonts = require('rxmarbles/styles/fonts');
-
-var _rxmarblesStylesFonts2 = _interopRequireDefault(_rxmarblesStylesFonts);
-
-var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
-
-var Rx = _cyclejs2['default'].Rx;
-var h = _cyclejs2['default'].h;
-
-function renderOperatorLabel(label) {
-  var fontSize = label.length >= 45 ? 1.3 : label.length >= 30 ? 1.5 : 2;
-  var style = {
-    fontFamily: _rxmarblesStylesFonts2['default'].fontCode,
-    fontWeight: '400',
-    fontSize: '' + fontSize + 'rem'
-  };
-  return h('span.operatorLabel', { style: style }, label);
-}
-
-function renderOperator(label) {
-  var style = (0, _rxmarblesStylesUtils.mergeStyles)({
-    border: '1px solid rgba(0,0,0,0.06)',
-    padding: _rxmarblesStylesDimens2['default'].spaceMedium,
-    textAlign: 'center' }, _rxmarblesStylesUtils.elevation2Style);
-  return h('div.operatorBox', { style: style }, [_rxmarblesStylesUtils.elevation2Before, renderOperatorLabel(label), _rxmarblesStylesUtils.elevation2After]);
-}
-
-function getSandboxStyle(width) {
-  return (0, _rxmarblesStylesUtils.mergeStyles)({
-    background: _rxmarblesStylesColors2['default'].white,
-    width: width,
-    borderRadius: '2px' }, _rxmarblesStylesUtils.elevation1Style);
-}
-
-function renderSandbox(inputDiagrams, operatorLabel, outputDiagram, width) {
-  return h('div.sandboxRoot', { style: getSandboxStyle(width) }, [inputDiagrams.get('diagrams').map(function (diagram, index) {
-    return h('x-diagram.sandboxInputDiagram', {
-      key: 'inputDiagram' + index,
-      data: diagram,
-      interactive: true
-    });
-  }), renderOperator(operatorLabel), h('x-diagram.sandboxOutputDiagram', {
-    key: 'outputDiagram',
-    data: outputDiagram,
-    interactive: false
-  })]);
-}
-
-function makeInputDiagrams(example) {
-  return _immutable2['default'].Map({
-    'diagrams': example.get('inputs').map(_rxmarblesComponentsSandboxSandboxInput.prepareInputDiagram).map(function (diag) {
-      return (0, _rxmarblesComponentsSandboxSandboxInput.augmentWithExampleKey)(diag, example.get('key'));
-    })
-  });
-}
-
-function markAsFirstDiagram(diagram) {
-  return diagram.set('isFirst', true);
-}
-
-function markAllDiagramsAsFirst(diagramsData) {
-  return diagramsData.update('diagrams', function (diagrams) {
-    return diagrams.map(markAsFirstDiagram);
-  });
-}
-
-var isTruthy = function isTruthy(x) {
-  return !!x;
-};
-
-//function animateData$(inputDiagrams$) {
-//  //return diagrams$.doOnNext(diagrams => console.log(diagrams.toJS()));
-//  const animConf = {
-//    from: 10,
-//    to: 0,
-//    ease: RxTween.Power3.easeOut,
-//    duration: 1000
-//  };
-//  return inputDiagrams$.flatMapLatest(inputDiagrams => {
-//    return RxTween(animConf).map(x =>
-//      inputDiagrams.update('diagrams', diagrams =>
-//        diagrams.map(diagram =>
-//          diagram.update('notifications', notifications =>
-//            notifications.map(notif =>
-//              notif.update('time', time => time + x)
-//            )
-//          )
-//        )
-//      )
-//    );
-//  })
-//}
-
-function sandboxComponent(interactions, properties) {
-  var changeInputDiagram$ = interactions.get('.sandboxInputDiagram', 'newdata').map(function (ev) {
-    return ev.data;
-  });
-  var width$ = properties.get('width').startWith('100%');
-  var example$ = properties.get('route').filter(isTruthy).map(function (key) {
-    return _immutable2['default'].Map(_rxmarblesDataExamples2['default'][key]).set('key', key);
-  }).shareReplay(1);
-  var inputDiagrams$ = example$.map(makeInputDiagrams).map(markAllDiagramsAsFirst).shareReplay(1);
-  //inputDiagrams$ = animateData$(inputDiagrams$);
-  var newInputDiagrams$ = (0, _rxmarblesComponentsSandboxSandboxInput.makeNewInputDiagramsData$)(changeInputDiagram$, inputDiagrams$);
-  //let allInputDiagrams$ = inputDiagrams$.merge(newInputDiagrams$);
-  var operatorLabel$ = example$.map(function (example) {
-    return example.get('label');
-  });
-  var firstOutputDiagram$ = (0, _rxmarblesComponentsSandboxSandboxOutput.getOutputDiagram$)(example$, inputDiagrams$).map(markAsFirstDiagram);
-  var newOutputDiagram$ = (0, _rxmarblesComponentsSandboxSandboxOutput.getOutputDiagram$)(example$, newInputDiagrams$);
-  var outputDiagram$ = firstOutputDiagram$.merge(newOutputDiagram$);
-
-  return {
-    vtree$: Rx.Observable.combineLatest(inputDiagrams$, operatorLabel$, outputDiagram$, width$, renderSandbox)
-  };
-}
-
-module.exports = sandboxComponent;
-},{"cyclejs":6,"immutable":115,"rxmarbles/components/sandbox/sandbox-input":128,"rxmarbles/components/sandbox/sandbox-output":129,"rxmarbles/data/examples":133,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142,"rxtween":151}],131:[function(require,module,exports){
-/*
- * Conversion from virtual time streams out to diagram data, and
- * vice-versa, and related functions.
- */
-
-"use strict";
-
-function calculateNotificationContentHash(content) {
-  var SMALL_PRIME_1 = 59;
-  var SMALL_PRIME_2 = 97;
-  var SOME_PRIME_NUMBER = 877;
-  if (typeof content === "string") {
-    return content.split("").map(function (x) {
-      return x.charCodeAt(0);
-    }).reduce(function (x, y) {
-      return x * SMALL_PRIME_1 + y * SMALL_PRIME_2;
-    });
-  } else if (typeof content === "number") {
-    return parseInt(content) * SOME_PRIME_NUMBER;
-  } else if (typeof content === "boolean") {
-    return content ? SOME_PRIME_NUMBER : SOME_PRIME_NUMBER * 3;
-  }
-}
-
-function calculateNotificationHash(marbleData) {
-  var SMALL_PRIME = 7;
-  var LARGE_PRIME = 1046527;
-  var MAX = 100000;
-  var contentHash = calculateNotificationContentHash(marbleData.content);
-  return (marbleData.time + contentHash + SMALL_PRIME) * LARGE_PRIME % MAX;
-}
-
-module.exports = {
-  calculateNotificationHash: calculateNotificationHash,
-  calculateNotificationContentHash: calculateNotificationContentHash
-};
-},{}],132:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "combineLatest": {
-    "label": "combineLatest((x, y) => \"\" + x + y)",
-    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.combineLatest(inputs[0], inputs[1], function (x, y) {
-        return "" + x.get("content") + y.get("content");
-      });
-    }
-  },
-
-  "sample": {
-    "label": "sample",
-    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 60, d: 4 }, { t: 80, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 33, d: "C" }, { t: 70, d: "D" }, 90]],
-    "apply": function apply(inputs) {
-      return inputs[0].sample(inputs[1]);
-    }
-  },
-
-  "zip": {
-    "label": "zip",
-    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.zip(inputs[0], inputs[1], function (x, y) {
-        return "" + x.get("content") + y.get("content");
-      });
-    }
-  }
-};
-},{"cyclejs":6}],133:[function(require,module,exports){
-/*
- * The database of all predefined examples in the app.
- */
-'use strict';
-
-var transformExamples = require('rxmarbles/data/transform-examples');
-var combineExamples = require('rxmarbles/data/combine-examples');
-var filterExamples = require('rxmarbles/data/filter-examples');
-var flattenExamples = require('rxmarbles/data/flatten-examples');
-var mathExamples = require('rxmarbles/data/math-examples');
-
-function merge() {
-  var args = 1 <= arguments.length ? Array.prototype.slice.call(arguments) : [];
-  var result = {};
-  for (var i = 0; i < args.length; i++) {
-    var object = args[i];
-    for (var name in object) {
-      if (!object.hasOwnProperty(name)) continue;
-      result[name] = object[name];
-    }
-  }
-  return result;
-};
-
-function applyCategory(examples, categoryName) {
-  for (var key in examples) {
-    if (!examples.hasOwnProperty(key)) continue;
-    examples[key]['category'] = categoryName;
-  }
-  return examples;
-};
-
-module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(flattenExamples, 'Flatten Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
-},{"rxmarbles/data/combine-examples":132,"rxmarbles/data/filter-examples":134,"rxmarbles/data/flatten-examples":135,"rxmarbles/data/math-examples":136,"rxmarbles/data/transform-examples":138}],134:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "filter": {
-    "label": "filter(x => x > 10)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].filter(function (x) {
-        return x.get("content") > 10;
-      });
-    }
-  },
-
-  "first": {
-    "label": "first",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
-    "apply": function apply(inputs) {
-      return inputs[0].first();
-    }
-  },
-
-  "skip": {
-    "label": "skip(2)",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].skip(2);
-    }
-  },
-
-  "take": {
-    "label": "take(2)",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].take(2, scheduler);
-    }
-  },
-
-  "takeLast": {
-    "label": "takeLast(1)",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
-    "apply": function apply(inputs) {
-      return inputs[0].takeLast(1);
-    }
-  },
-
-  "takeUntil": {
-    "label": "takeUntil",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 3 }, { t: 30, d: 4 }, { t: 40, d: 5 }, { t: 50, d: 6 }, { t: 60, d: 7 }, { t: 70, d: 8 }, { t: 80, d: 9 }], [{ t: 45, d: 0 }, { t: 73, d: 0 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].takeUntil(inputs[1]);
-    }
-  }
-};
-},{"cyclejs":6}],135:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "concat": {
-    "label": "flatten(.Concat)",
-    "inputs": [[{ t: 0, d: 1 }, { t: 15, d: 1 }, { t: 50, d: 1 }, 57], [{ t: 0, d: 2 }, { t: 8, d: 2 }, 12]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.concat(inputs);
-    }
-  },
-
-  "merge": {
-    "label": "flatten(.Merge)",
-    "inputs": [[{ t: 0, d: 20 }, { t: 15, d: 40 }, { t: 30, d: 60 }, { t: 45, d: 80 }, { t: 60, d: 100 }], [{ t: 37, d: 1 }, { t: 68, d: 1 }]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.merge(inputs);
-    }
-  }
-};
-},{"cyclejs":6}],136:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "reduce": {
-    "label": "reduce((x, y) => x + y)",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].reduce(function (x, y) {
-        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
-      });
-    }
-  }
-};
-},{"cyclejs":6}],137:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-    // Signals
-    "mapError": { "label": "mapError" },
-    "ignoreNil": { "label": "ignoreNil" },
-    "collect": { "label": "collect" },
-    "observeOn": { "label": "observeOn" },
-    "materialize": { "label": "materialize" },
-    "dematerialize": { "label": "dematerialize" },
-    "dematerialize": { "label": "dematerialize" },
-    "sampleOn": { "label": "sampleOn" },
-    "combinePrevious": { "label": "combinePrevious" },
-    "skipRepeats": { "label": "skipRepeats" },
-    "skipWhile": { "label": "skipWhile" },
-    "takeUntilReplacement": { "label": "takeUntilReplacement" },
-    "takeWhile": { "label": "takeWhile" },
-    "try": { "label": "try" },
-    "tryMap": { "label": "tryMap" },
-    "throttle": { "label": "throttle" },
-    "timeoutWithError": { "label": "timeoutWithError" },
-    "promoteErrors": { "label": "promoteErrors" },
-
-    // Producers
-
-    // Uncategorized
-    "timer": { "label": "timer" },
-    "on": { "label": "on" },
-    "startOn": { "label": "startOn" },
-    "times": { "label": "times" },
-    "then": { "label": "then" },
-
-    // Error recovery
-    "catch": { "label": "catch" },
-    "retry": { "label": "retry" },
-
-    // Blocking operators
-    "first": { "label": "first" },
-    "last": { "label": "last" },
-    "single": { "label": "single" },
-    "wait": { "label": "wait" },
-
-    // Flattening operators
-    "latest": { "label": "flatten(.Latest)" },
-    "flatMap": { "label": "flatMap" }
-};
-},{"cyclejs":6}],138:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "delay": {
-    "label": "delay",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 1 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].delay(20, scheduler);
-    }
-  },
-
-  "map": {
-    "label": "map(x => 10 * x)",
-    "inputs": [[{ t: 10, d: 1 }, { t: 20, d: 2 }, { t: 50, d: 3 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].map(function (x) {
-        return x.set("content", x.get("content") * 10);
-      });
-    }
-  },
-
-  "scan": {
-    "label": "scan((x, y) => x + y)",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].scan(function (x, y) {
-        return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
-      });
-    }
-  }
-};
-},{"cyclejs":6}],139:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = {
-  white: '#FFFFFF',
-  almostWhite: '#ECECEC',
-  greyLight: '#D4D4D4',
-  grey: '#A7A7A7',
-  greyDark: '#7C7C7C',
-  black: '#323232',
-  blue: '#3EA1CB',
-  yellow: '#FFCB46',
-  red: '#FF6946',
-  green: '#82D736'
-};
-module.exports = exports['default'];
-},{}],140:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = {
-  spaceTiny: '5px',
-  spaceSmall: '10px',
-  spaceMedium: '22px',
-  spaceLarge: '32px',
-
-  animationDurationQuick: '100ms',
-  animationDurationNormal: '200ms',
-  animationDurationSlow: '400ms'
-};
-module.exports = exports['default'];
-},{}],141:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = {
-  fontBase: "'Source Sans Pro', sans-serif",
-  fontSpecial: "'Signika', Helvetica, serif",
-  fontCode: "'Source Code Pro', monospace"
-};
-module.exports = exports["default"];
-},{}],142:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-var _cyclejs = require('cyclejs');
-
-var _cyclejs2 = _interopRequireDefault(_cyclejs);
-
-var h = _cyclejs2['default'].h;
-
-var isTruthy = function isTruthy(style) {
-  return !!style;
-};
-
-function mergeStyles() {
-  for (var _len = arguments.length, styleObjects = Array(_len), _key = 0; _key < _len; _key++) {
-    styleObjects[_key] = arguments[_key];
-  }
-
-  return styleObjects.filter(isTruthy).reduce(function (styleA, styleB) {
-    var mapA = _immutable2['default'].Map(styleA);
-    var mapB = _immutable2['default'].Map(styleB);
-    return mapA.merge(mapB).toObject(); // notice B first
-  }, {});
-}
-
-var elevation1Style = {
-  '-webkit-box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)',
-  '-moz-box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)',
-  'box-shadow': '0px 1px 2px 1px rgba(0,0,0,0.17)'
-};
-
-var elevation2Style = {
-  position: 'relative'
-};
-
-function getElevationPseudoElementStyle(dy, blur, opacity) {
-  return {
-    display: 'block',
-    position: 'absolute',
-    left: '0', top: '0', right: '0', bottom: '0',
-    '-webkit-box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')',
-    '-moz-box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')',
-    'box-shadow': '0 ' + dy + ' ' + blur + ' 0 rgba(0,0,0,' + opacity + ')'
-  };
-}
-
-var elevation2Before = h('div', { style: getElevationPseudoElementStyle('2px', '10px', '0.17')
-}, '');
-var elevation2After = h('div', { style: getElevationPseudoElementStyle('2px', '5px', '0.26')
-}, '');
-
-var elevation3Before = h('div', { style: getElevationPseudoElementStyle('6px', '20px', '0.19')
-}, '');
-var elevation3After = h('div', { style: getElevationPseudoElementStyle('6px', '17px', '0.2')
-}, '');
-
-var svgElevation1Style = {
-  '-webkit-filter': 'drop-shadow(0px 3px 2px rgba(0,0,0,0.26))',
-  'filter': 'drop-shadow(0px 3px 2px rgba(0,0,0,0.26))'
-};
-
-var textUnselectable = {
-  '-webkit-user-select': 'none',
-  '-khtml-user-select': 'none',
-  '-moz-user-select': '-moz-none',
-  '-o-user-select': 'none',
-  'user-select': 'none'
-};
-
-exports['default'] = {
-  mergeStyles: mergeStyles,
-  elevation1Style: elevation1Style,
-  elevation2Style: elevation2Style,
-  elevation2Before: elevation2Before,
-  elevation2After: elevation2After,
-  elevation3Before: elevation3Before,
-  elevation3After: elevation3After,
-  svgElevation1Style: svgElevation1Style,
-  textUnselectable: textUnselectable
-};
-module.exports = exports['default'];
-},{"cyclejs":6,"immutable":115}],143:[function(require,module,exports){
+},{"_process":3}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32805,4 +32802,4 @@ RxTween.Sine = EasingSine;
 
 exports['default'] = RxTween;
 module.exports = exports['default'];
-},{"./ease-back":143,"./ease-bounce":144,"./ease-circ":145,"./ease-common":146,"./ease-elastic":147,"./ease-exponential":148,"./ease-powers":149,"./ease-sine":150,"rx":117}]},{},[1]);
+},{"./ease-back":143,"./ease-bounce":144,"./ease-circ":145,"./ease-common":146,"./ease-elastic":147,"./ease-exponential":148,"./ease-powers":149,"./ease-sine":150,"rx":142}]},{},[1]);

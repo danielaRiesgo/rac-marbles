@@ -1,9 +1,9 @@
 import Cycle from 'cyclejs';
-import Colors from 'rxmarbles/styles/colors';
-import Dimens from 'rxmarbles/styles/dimens';
-import Examples from 'rxmarbles/data/examples';
-import Todo from 'rxmarbles/data/todo';
-import {mergeStyles} from 'rxmarbles/styles/utils';
+import Colors from 'rac-marbles/styles/colors';
+import Dimens from 'rac-marbles/styles/dimens';
+import Examples from 'rac-marbles/data/examples';
+import Todo from 'rac-marbles/data/todo';
+import {mergeStyles} from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 
