@@ -4,25 +4,27 @@
  */
 
 function calculateNotificationContentHash(content) {
-  var SOME_PRIME_NUMBER = 877;
+  const SMALL_PRIME_1 = 59;
+  const SMALL_PRIME_2 = 97;
+  const SOME_PRIME_NUMBER = 877;
   if (typeof content === "string") {
     return content.split("")
-      .map(function(x) { return x.charCodeAt(0); })
-      .reduce(function(x, y) { return x + y; });
+      .map(x => x.charCodeAt(0))
+      .reduce((x, y) => (x * SMALL_PRIME_1) + (y * SMALL_PRIME_2));
   } else if (typeof content === "number") {
-    return content * SOME_PRIME_NUMBER;
+    return parseInt(content) * SOME_PRIME_NUMBER;
   } else if (typeof content === 'boolean') {
     return content ? SOME_PRIME_NUMBER : SOME_PRIME_NUMBER*3;
   }
-};
+}
 
 function calculateNotificationHash(marbleData) {
-  var SMALL_PRIME = 7;
-  var LARGE_PRIME = 1046527;
-  var MAX = 100000;
-  var contentHash = calculateNotificationContentHash(marbleData.content);
+  const SMALL_PRIME = 7;
+  const LARGE_PRIME = 1046527;
+  const MAX = 100000;
+  const contentHash = calculateNotificationContentHash(marbleData.content);
   return ((marbleData.time + contentHash + SMALL_PRIME) * LARGE_PRIME) % MAX;
-};
+}
 
 module.exports = {
   calculateNotificationHash: calculateNotificationHash,
