@@ -12520,7 +12520,7 @@ module.exports={
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Reactive-Extensions/RxJS.git"
+    "url": "git+https://github.com/Reactive-Extensions/RxJS.git"
   },
   "licenses": [
     {
@@ -12590,7 +12590,8 @@ module.exports={
     "tarball": "http://registry.npmjs.org/rx/-/rx-2.5.2.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/rx/-/rx-2.5.2.tgz"
+  "_resolved": "https://registry.npmjs.org/rx/-/rx-2.5.2.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
 },{}],65:[function(require,module,exports){
@@ -12756,15 +12757,28 @@ function closeTag(node) {
   return voidElements[tag] ? '' : '</' + tag + '>';
 }
 },{"./create-attribute":65,"./void-elements":76,"escape-html":67,"param-case":73,"virtual-dom/virtual-hyperscript/hooks/attribute-hook":95,"virtual-dom/virtual-hyperscript/hooks/soft-set-hook":97,"virtual-dom/vnode/is-thunk":103,"virtual-dom/vnode/is-vnode":105,"virtual-dom/vnode/is-vtext":106,"virtual-dom/vnode/is-widget":107,"xtend":74}],67:[function(require,module,exports){
+/*!
+ * escape-html
+ * Copyright(c) 2012-2013 TJ Holowaychuk
+ * MIT Licensed
+ */
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = escapeHtml;
+
 /**
  * Escape special characters in the given string of html.
  *
- * @param  {String} html
- * @return {String}
- * @api private
+ * @param  {string} str The string to escape for inserting into HTML
+ * @return {string}
+ * @public
  */
 
-module.exports = function(html) {
+function escapeHtml(html) {
   return String(html)
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
@@ -20130,7 +20144,6 @@ module.exports={
     "preinstall": "rm -rf build && rm -rf node_modules && mkdir -p ignore/es5src",
     "postinstall": "ln -s ../ignore/es5src node_modules/rxmarbles && ln -s ../package.json node_modules/package.json",
     "less": "lessc styles/main.less dist/css/main.css",
-    "babel-run": "babel src --out-dir ignore/es5src",
     "babel": "mkdir -p ignore/es5src && babel src --out-dir ignore/es5src",
     "browserify": "browserify -e ignore/es5src/app.js --outfile dist/js/app.js",
     "browserify-element": "browserify -e ignore/es5src/element.js --outfile dist/js/element.js",
@@ -30980,7 +30993,7 @@ module.exports = function appView(model) {
     return h('div', [vrenderHeader(), vrenderContent(route), vrenderFooter(appVersion, rxVersion)]);
   });
 };
-},{"cyclejs":5,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141}],119:[function(require,module,exports){
+},{"cyclejs":5,"rxmarbles/styles/colors":137,"rxmarbles/styles/dimens":138,"rxmarbles/styles/fonts":139,"rxmarbles/styles/utils":140}],119:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31055,7 +31068,7 @@ function diagramCompletionComponent(interactions, properties) {
 }
 
 module.exports = diagramCompletionComponent;
-},{"cyclejs":5,"rxmarbles/styles/utils":141}],120:[function(require,module,exports){
+},{"cyclejs":5,"rxmarbles/styles/utils":140}],120:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31401,7 +31414,7 @@ function diagramView(model) {
 }
 
 module.exports = diagramView;
-},{"cyclejs":5,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141,"rxtween":150}],123:[function(require,module,exports){
+},{"cyclejs":5,"rxmarbles/styles/colors":137,"rxmarbles/styles/dimens":138,"rxmarbles/styles/fonts":139,"rxmarbles/styles/utils":140,"rxtween":149}],123:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31531,7 +31544,7 @@ function marbleComponent(interactions, properties) {
 }
 
 module.exports = marbleComponent;
-},{"cyclejs":5,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":101,"rxmarbles/styles/colors":138,"rxmarbles/styles/utils":141}],125:[function(require,module,exports){
+},{"cyclejs":5,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":101,"rxmarbles/styles/colors":137,"rxmarbles/styles/utils":140}],125:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31586,7 +31599,7 @@ function operatorsMenuLink(interactions, properties) {
 }
 
 module.exports = operatorsMenuLink;
-},{"cyclejs":5,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/utils":141}],126:[function(require,module,exports){
+},{"cyclejs":5,"rxmarbles/styles/colors":137,"rxmarbles/styles/dimens":138,"rxmarbles/styles/utils":140}],126:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31606,6 +31619,10 @@ var _rxmarblesStylesDimens2 = _interopRequireDefault(_rxmarblesStylesDimens);
 var _rxmarblesDataExamples = require('rxmarbles/data/examples');
 
 var _rxmarblesDataExamples2 = _interopRequireDefault(_rxmarblesDataExamples);
+
+var _rxmarblesDataTodo = require('rxmarbles/data/todo');
+
+var _rxmarblesDataTodo2 = _interopRequireDefault(_rxmarblesDataTodo);
 
 var _rxmarblesStylesUtils = require('rxmarbles/styles/utils');
 
@@ -31665,7 +31682,7 @@ function renderExampleCategory(categoryName, isFirstCategory) {
     style: (0, _rxmarblesStylesUtils.mergeStyles)(operatorsMenuCategoryStyle, isFirstCategory ? { marginTop: '0' } : {}) }, '' + categoryName);
 }
 
-function renderMenuContent(categoryMap) {
+function renderMenuContent(categoryMap, todo) {
   var listItems = [];
   var isFirstCategory = true;
   for (var categoryName in categoryMap) {
@@ -31674,8 +31691,10 @@ function renderMenuContent(categoryMap) {
     listItems = listItems.concat(renderExampleItems(categoryMap[categoryName]));
     isFirstCategory = false;
   }
-  listItems.push(h('li', { style: operatorsMenuCategoryStyle }, 'More'));
-  listItems.push(h('li', { style: operatorsMenuItemStyle }, 'Coming soon...'));
+  listItems.push(h('li', { style: operatorsMenuCategoryStyle }, 'TODO'));
+  for (var operator in todo) {
+    listItems.push(h('li', { style: operatorsMenuItemStyle }, operator));
+  }
   return listItems;
 }
 
@@ -31693,13 +31712,13 @@ function operatorsMenuComponent() {
           padding: '0',
           listStyleType: 'none',
           overflowY: 'scroll',
-          height: '100%' } }, renderMenuContent(categoryMap))]);
+          height: '100%' } }, renderMenuContent(categoryMap, _rxmarblesDataTodo2['default']))]);
     })
   };
 }
 
 module.exports = operatorsMenuComponent;
-},{"cyclejs":5,"rxmarbles/data/examples":134,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/utils":141}],127:[function(require,module,exports){
+},{"cyclejs":5,"rxmarbles/data/examples":132,"rxmarbles/data/todo":135,"rxmarbles/styles/colors":137,"rxmarbles/styles/dimens":138,"rxmarbles/styles/utils":140}],127:[function(require,module,exports){
 /*
  * Functions to handle data of input diagrams in the example shown in the
  * sandbox.
@@ -32045,7 +32064,7 @@ function sandboxComponent(interactions, properties) {
 }
 
 module.exports = sandboxComponent;
-},{"cyclejs":5,"immutable":114,"rxmarbles/components/sandbox/sandbox-input":127,"rxmarbles/components/sandbox/sandbox-output":128,"rxmarbles/data/examples":134,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141,"rxtween":150}],130:[function(require,module,exports){
+},{"cyclejs":5,"immutable":114,"rxmarbles/components/sandbox/sandbox-input":127,"rxmarbles/components/sandbox/sandbox-output":128,"rxmarbles/data/examples":132,"rxmarbles/styles/colors":137,"rxmarbles/styles/dimens":138,"rxmarbles/styles/fonts":139,"rxmarbles/styles/utils":140,"rxtween":149}],130:[function(require,module,exports){
 /*
  * Conversion from virtual time streams out to diagram data, and
  * vice-versa, and related functions.
@@ -32088,52 +32107,6 @@ module.exports = {
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
-  "every": {
-    "label": "every(x => x < 10)",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].every(function (x) {
-        return x.get("content") < 10;
-      });
-    }
-  },
-
-  "some": {
-    "label": "some(x => x > 10)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].some(function (x) {
-        return x.get("content") > 10;
-      });
-    }
-  },
-
-  "includes": {
-    "label": "includes(22)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].map(function (x) {
-        return x.get("content");
-      }).includes(22);
-    }
-  },
-
-  "sequenceEqual": {
-    "label": "sequenceEqual",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 85], [{ t: 2, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 70, d: 4 }, { t: 77, d: 5 }, 85]],
-    "apply": function apply(inputs) {
-      return inputs[0].sequenceEqual(inputs[1], function (x, y) {
-        return x.get("content") === y.get("content");
-      });
-    }
-  }
-};
-},{"cyclejs":5}],132:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
   "combineLatest": {
     "label": "combineLatest((x, y) => \"\" + x + y)",
     "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
@@ -32168,24 +32141,6 @@ module.exports = {
     }
   },
 
-  "startWith": {
-    "label": "startWith(1)",
-    "inputs": [[{ t: 30, d: 2 }, { t: 40, d: 3 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].startWith(scheduler, 1);
-    }
-  },
-
-  "withLatestFrom": {
-    "label": "withLatestFrom((x, y) => \"\" + x + y)",
-    "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
-    "apply": function apply(inputs) {
-      return inputs[0].withLatestFrom(inputs[1], function (x, y) {
-        return "" + x.get("content") + y.get("content");
-      });
-    }
-  },
-
   "zip": {
     "label": "zip",
     "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, { t: 92, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 50, d: "C" }, { t: 57, d: "D" }]],
@@ -32196,21 +32151,7 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":5}],133:[function(require,module,exports){
-"use strict";
-
-var Rx = require("cyclejs").Rx;
-
-module.exports = {
-  "amb": {
-    "label": "amb",
-    "inputs": [[{ t: 10, d: 20 }, { t: 20, d: 40 }, { t: 30, d: 60 }], [{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }], [{ t: 20, d: 0 }, { t: 32, d: 0 }, { t: 44, d: 0 }]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.amb(inputs);
-    }
-  }
-};
-},{"cyclejs":5}],134:[function(require,module,exports){
+},{"cyclejs":5}],132:[function(require,module,exports){
 /*
  * The database of all predefined examples in the app.
  */
@@ -32220,8 +32161,6 @@ var transformExamples = require('rxmarbles/data/transform-examples');
 var combineExamples = require('rxmarbles/data/combine-examples');
 var filterExamples = require('rxmarbles/data/filter-examples');
 var mathExamples = require('rxmarbles/data/math-examples');
-var booleanExamples = require('rxmarbles/data/boolean-examples');
-var conditionalExamples = require('rxmarbles/data/conditional-examples');
 
 function merge() {
   var args = 1 <= arguments.length ? Array.prototype.slice.call(arguments) : [];
@@ -32244,56 +32183,18 @@ function applyCategory(examples, categoryName) {
   return examples;
 };
 
-module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(mathExamples, 'Mathematical Operators'), applyCategory(booleanExamples, 'Boolean Operators'), applyCategory(conditionalExamples, 'Conditional Operators'));
-},{"rxmarbles/data/boolean-examples":131,"rxmarbles/data/combine-examples":132,"rxmarbles/data/conditional-examples":133,"rxmarbles/data/filter-examples":135,"rxmarbles/data/math-examples":136,"rxmarbles/data/transform-examples":137}],135:[function(require,module,exports){
+module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
+},{"rxmarbles/data/combine-examples":131,"rxmarbles/data/filter-examples":133,"rxmarbles/data/math-examples":134,"rxmarbles/data/transform-examples":136}],133:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
-  "distinct": {
-    "label": "distinct",
-    "inputs": [[{ t: 5, d: 1 }, { t: 20, d: 2 }, { t: 35, d: 2 }, { t: 60, d: 1 }, { t: 70, d: 3 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].distinct(function (x) {
-        return x.get("content");
-      });
-    }
-  },
-
-  "distinctUntilChanged": {
-    "label": "distinctUntilChanged",
-    "inputs": [[{ t: 5, d: 1 }, { t: 20, d: 2 }, { t: 35, d: 2 }, { t: 60, d: 1 }, { t: 70, d: 3 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].distinctUntilChanged(function (x) {
-        return x.get("content");
-      });
-    }
-  },
-
-  "elementAt": {
-    "label": "elementAt(2)",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].elementAt(2);
-    }
-  },
-
   "filter": {
     "label": "filter(x => x > 10)",
     "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
     "apply": function apply(inputs) {
       return inputs[0].filter(function (x) {
-        return x.get("content") > 10;
-      });
-    }
-  },
-
-  "find": {
-    "label": "find(x => x > 10)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].find(function (x) {
         return x.get("content") > 10;
       });
     }
@@ -32307,65 +32208,11 @@ module.exports = {
     }
   },
 
-  "last": {
-    "label": "last",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }, 85]],
-    "apply": function apply(inputs) {
-      return inputs[0].last();
-    }
-  },
-
-  "pausable": {
-    "label": "pausable",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 3 }, { t: 30, d: 4 }, { t: 40, d: 5 }, { t: 50, d: 6 }, { t: 60, d: 7 }, { t: 70, d: 8 }, { t: 80, d: 9 }], [{ t: 15, d: true }, { t: 35, d: false }, { t: 55, d: true }]],
-    "apply": function apply(inputs) {
-      inputs[0].subscribe(function () {
-        return 0;
-      });
-      var subject = new Rx.Subject();
-      inputs[1].subscribe(function (x) {
-        return subject.onNext(x.get("content"));
-      });
-      return inputs[0].pausable(subject);
-    }
-  },
-
-  "pausableBuffered": {
-    "label": "pausableBuffered",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 3 }, { t: 30, d: 4 }, { t: 40, d: 5 }, { t: 50, d: 6 }, { t: 60, d: 7 }, { t: 70, d: 8 }, { t: 80, d: 9 }], [{ t: 15, d: true }, { t: 35, d: false }, { t: 55, d: true }]],
-    "apply": function apply(inputs) {
-      inputs[0].subscribe(function () {
-        return 0;
-      });
-      var subject = new Rx.Subject();
-      inputs[1].subscribe(function (x) {
-        return subject.onNext(x.get("content"));
-      });
-      return inputs[0].pausableBuffered(subject);
-    }
-  },
-
   "skip": {
     "label": "skip(2)",
     "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }]],
     "apply": function apply(inputs) {
       return inputs[0].skip(2);
-    }
-  },
-
-  "skipLast": {
-    "label": "skipLast(2)",
-    "inputs": [[{ t: 30, d: 1 }, { t: 40, d: 2 }, { t: 65, d: 3 }, { t: 75, d: 4 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].skipLast(2);
-    }
-  },
-
-  "skipUntil": {
-    "label": "skipUntil",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 3 }, { t: 30, d: 4 }, { t: 40, d: 5 }, { t: 50, d: 6 }, { t: 60, d: 7 }, { t: 70, d: 8 }, { t: 80, d: 9 }], [{ t: 45, d: 0 }, { t: 73, d: 0 }]],
-    "apply": function apply(inputs) {
-      return inputs[0].skipUntil(inputs[1]);
     }
   },
 
@@ -32393,75 +32240,12 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":5}],136:[function(require,module,exports){
+},{"cyclejs":5}],134:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
-  // A clone of scan?
-  // "aggregate": {
-  //   "label": "aggregate((x, y) => x + y)"
-  //   "inputs": [
-  //     [{t:5, d:1}, {t:15, d:2}, {t:25, d:3}, {t:35, d:4}, {t:65, d:5}]
-  //   ]
-  //   "apply": (inputs) -> inputs[0].aggregate((x, y) ->
-  //     return {content: x.content + y.content, time: x.time, id: x.id+y.id}
-  //   )
-  // }
-
-  "average": {
-    "label": "average",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 30, d: 2 }, { t: 50, d: 2 }, { t: 65, d: 5 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].average(function (x) {
-        return x.get("content");
-      });
-    }
-  },
-
-  "count": {
-    "label": "count(x => x > 10)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].count(function (x) {
-        return x.get("content") > 10;
-      });
-    }
-  },
-
-  "max": {
-    "label": "max",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].max(function (x, y) {
-        if (x.get("content") > y.get("content")) {
-          return 1;
-        }
-        if (x.get("content") < y.get("content")) {
-          return -1;
-        }
-        return 0;
-      });
-    }
-  },
-
-  "min": {
-    "label": "min",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].min(function (x, y) {
-        if (x.get("content") > y.get("content")) {
-          return 1;
-        }
-        if (x.get("content") < y.get("content")) {
-          return -1;
-        }
-        return 0;
-      });
-    }
-  },
-
   "reduce": {
     "label": "reduce((x, y) => x + y)",
     "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
@@ -32470,19 +32254,60 @@ module.exports = {
         return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
       });
     }
-  },
-
-  "sum": {
-    "label": "sum",
-    "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
-    "apply": function apply(inputs) {
-      return inputs[0].sum(function (x) {
-        return x.get("content");
-      });
-    }
   }
 };
-},{"cyclejs":5}],137:[function(require,module,exports){
+},{"cyclejs":5}],135:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
+    // Signals
+    "mapError": { "label": "mapError" },
+    "ignoreNil": { "label": "ignoreNil" },
+    "collect": { "label": "collect" },
+    "observeOn": { "label": "observeOn" },
+    "materialize": { "label": "materialize" },
+    "dematerialize": { "label": "dematerialize" },
+    "dematerialize": { "label": "dematerialize" },
+    "sampleOn": { "label": "sampleOn" },
+    "combinePrevious": { "label": "combinePrevious" },
+    "skipRepeats": { "label": "skipRepeats" },
+    "skipWhile": { "label": "skipWhile" },
+    "takeUntilReplacement": { "label": "takeUntilReplacement" },
+    "takeWhile": { "label": "takeWhile" },
+    "try": { "label": "try" },
+    "tryMap": { "label": "tryMap" },
+    "throttle": { "label": "throttle" },
+    "timeoutWithError": { "label": "timeoutWithError" },
+    "promoteErrors": { "label": "promoteErrors" },
+
+    // Producers
+
+    // Uncategorized
+    "timer": { "label": "timer" },
+    "on": { "label": "on" },
+    "startOn": { "label": "startOn" },
+    "times": { "label": "times" },
+    "then": { "label": "then" },
+
+    // Error recovery
+    "catch": { "label": "catch" },
+    "retry": { "label": "retry" },
+
+    // Blocking operators
+    "first": { "label": "first" },
+    "last": { "label": "last" },
+    "single": { "label": "single" },
+    "wait": { "label": "wait" },
+
+    // Flattening operators
+    "flatten(.Merge)": { "label": "flatten(.Merge)" },
+    "flatten(.Concat)": { "label": "flatten(.Concat)" },
+    "flatten(.Latest)": { "label": "flatten(.Latest)" },
+    "flatMap": { "label": "flatMap" }
+};
+},{"cyclejs":5}],136:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
@@ -32493,26 +32318,6 @@ module.exports = {
     "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 1 }]],
     "apply": function apply(inputs, scheduler) {
       return inputs[0].delay(20, scheduler);
-    }
-  },
-
-  "delayWithSelector": {
-    "label": "delayWithSelector(x => Rx.Observable.timer(20 * x))",
-    "inputs": [[{ t: 0, d: 1 }, { t: 10, d: 2 }, { t: 20, d: 1 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].delayWithSelector(function (x) {
-        return Rx.Observable.timer(Number(x.get("content")) * 20, 1000, scheduler);
-      });
-    }
-  },
-
-  "findIndex": {
-    "label": "findIndex(x => x > 10)",
-    "inputs": [[{ t: 5, d: 2 }, { t: 15, d: 30 }, { t: 25, d: 22 }, { t: 35, d: 5 }, { t: 45, d: 60 }, { t: 55, d: 1 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].findIndex(function (x) {
-        return x.get("content") > 10;
-      });
     }
   },
 
@@ -32534,27 +32339,9 @@ module.exports = {
         return y.set("content", x.get("content") + y.get("content")).set("id", x.get("id") + y.get("id"));
       });
     }
-  },
-
-  "debounce": {
-    "label": "debounce",
-    "inputs": [[{ t: 0, d: 1 }, { t: 26, d: 2 }, { t: 34, d: 3 }, { t: 40, d: 4 }, { t: 45, d: 5 }, { t: 79, d: 6 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].debounce(10, scheduler);
-    }
-  },
-
-  "debounceWithSelector": {
-    "label": "debounceWithSelector(x => Rx.Observable.timer(10 * x))",
-    "inputs": [[{ t: 0, d: 1 }, { t: 26, d: 2 }, { t: 34, d: 1 }, { t: 40, d: 1 }, { t: 45, d: 2 }, { t: 79, d: 1 }]],
-    "apply": function apply(inputs, scheduler) {
-      return inputs[0].debounceWithSelector(function (x) {
-        return Rx.Observable.timer(Number(x.get("content")) * 10, 1000, scheduler);
-      });
-    }
   }
 };
-},{"cyclejs":5}],138:[function(require,module,exports){
+},{"cyclejs":5}],137:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32573,7 +32360,7 @@ exports['default'] = {
   green: '#82D736'
 };
 module.exports = exports['default'];
-},{}],139:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32590,7 +32377,7 @@ exports['default'] = {
   animationDurationSlow: '400ms'
 };
 module.exports = exports['default'];
-},{}],140:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32602,7 +32389,7 @@ exports["default"] = {
   fontCode: "'Source Code Pro', monospace"
 };
 module.exports = exports["default"];
-},{}],141:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32693,7 +32480,7 @@ exports['default'] = {
   textUnselectable: textUnselectable
 };
 module.exports = exports['default'];
-},{"cyclejs":5,"immutable":114}],142:[function(require,module,exports){
+},{"cyclejs":5,"immutable":114}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32713,7 +32500,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],143:[function(require,module,exports){
+},{"./ease-common":144}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32746,7 +32533,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],144:[function(require,module,exports){
+},{"./ease-common":144}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32763,7 +32550,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],145:[function(require,module,exports){
+},{"./ease-common":144}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32803,7 +32590,7 @@ exports['default'] = {
   }
 };
 module.exports = exports['default'];
-},{}],146:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32834,7 +32621,7 @@ exports['default'] = {
   EasingElastic: createEasing(elasticIn)
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],147:[function(require,module,exports){
+},{"./ease-common":144}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32858,7 +32645,7 @@ exports['default'] = {
   EasingExponential: EasingExponential
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],148:[function(require,module,exports){
+},{"./ease-common":144}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32887,7 +32674,7 @@ exports['default'] = {
   EasingPower4: EasingPower4
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],149:[function(require,module,exports){
+},{"./ease-common":144}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32907,7 +32694,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],150:[function(require,module,exports){
+},{"./ease-common":144}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32990,7 +32777,7 @@ RxTween.Sine = EasingSine;
 
 exports['default'] = RxTween;
 module.exports = exports['default'];
-},{"./ease-back":142,"./ease-bounce":143,"./ease-circ":144,"./ease-common":145,"./ease-elastic":146,"./ease-exponential":147,"./ease-powers":148,"./ease-sine":149,"rx":116}],151:[function(require,module,exports){
+},{"./ease-back":141,"./ease-bounce":142,"./ease-circ":143,"./ease-common":144,"./ease-elastic":145,"./ease-exponential":146,"./ease-powers":147,"./ease-sine":148,"rx":116}],150:[function(require,module,exports){
 'use strict';
 
 var Cycle = require('cyclejs');
@@ -33013,4 +32800,4 @@ Cycle.registerCustomElement('x-diagram', diagramComponent);
 Cycle.applyToDOM('.js-appContainer', function app() {
   return appView(appModel());
 });
-},{"cyclejs":5,"rxmarbles/app-model":117,"rxmarbles/app-view":118,"rxmarbles/components/diagram-completion":119,"rxmarbles/components/diagram/diagram":123,"rxmarbles/components/marble":124,"rxmarbles/components/operators-menu":126,"rxmarbles/components/operators-menu-link":125,"rxmarbles/components/sandbox/sandbox":129}]},{},[151]);
+},{"cyclejs":5,"rxmarbles/app-model":117,"rxmarbles/app-view":118,"rxmarbles/components/diagram-completion":119,"rxmarbles/components/diagram/diagram":123,"rxmarbles/components/marble":124,"rxmarbles/components/operators-menu":126,"rxmarbles/components/operators-menu-link":125,"rxmarbles/components/sandbox/sandbox":129}]},{},[150]);

@@ -2,6 +2,7 @@ import Cycle from 'cyclejs';
 import Colors from 'rxmarbles/styles/colors';
 import Dimens from 'rxmarbles/styles/dimens';
 import Examples from 'rxmarbles/data/examples';
+import Todo from 'rxmarbles/data/todo';
 import {mergeStyles} from 'rxmarbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
@@ -65,7 +66,7 @@ function renderExampleCategory(categoryName, isFirstCategory) {
   );
 }
 
-function renderMenuContent(categoryMap) {
+function renderMenuContent(categoryMap, todo) {
   let listItems = [];
   let isFirstCategory = true;
   for (let categoryName in categoryMap) {
@@ -74,8 +75,10 @@ function renderMenuContent(categoryMap) {
     listItems = listItems.concat(renderExampleItems(categoryMap[categoryName]));
     isFirstCategory = false;
   }
-  listItems.push(h('li', {style: operatorsMenuCategoryStyle}, 'More'));
-  listItems.push(h('li', {style: operatorsMenuItemStyle}, 'Coming soon...'));
+  listItems.push(h('li', {style: operatorsMenuCategoryStyle}, 'TODO'));
+  for (let operator in todo) {
+    listItems.push(h('li', {style: operatorsMenuItemStyle}, operator));
+  }
   return listItems;
 }
 
@@ -97,7 +100,7 @@ function operatorsMenuComponent() {
             listStyleType: 'none',
             overflowY: 'scroll',
             height: '100%'}},
-          renderMenuContent(categoryMap))])
+          renderMenuContent(categoryMap, Todo))])
     )
   };
 }
