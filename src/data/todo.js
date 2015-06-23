@@ -8,7 +8,7 @@ module.exports = {
     "observeOn": { "label": "observeOn" },
     "materialize": { "label": "materialize" },
     "dematerialize": { "label": "dematerialize" },
-    "dematerialize": { "label": "dematerialize" },
+    "scan": { "label": "scan" },
     "sampleOn": { "label": "sampleOn" },
     "combinePrevious": { "label": "combinePrevious" },
     "skipRepeats": { "label": "skipRepeats" },

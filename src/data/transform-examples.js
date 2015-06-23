@@ -20,17 +20,4 @@ module.exports = {
       return inputs[0].map(x => x.set('content', x.get('content') * 10));
     }
   },
-
-  "scan": {
-    "label": "scan",
-    "inputs": [
-      [{t:5, d:1}, {t:15, d:2}, {t:25, d:3}, {t:35, d:4}, {t:65, d:5}]
-    ],
-    "apply": function(inputs) {
-      return inputs[0].scan((x, y) => 
-        y.set('content', x.get('content') + y.get('content'))
-         .set('id', x.get('id') + y.get('id'))
-      );
-    }
-  },
 };
