@@ -76,7 +76,9 @@ function vrenderFooter() {
     'Shameless fork of ',
     h('a', {href: 'http://rxmarbles.com'}, 'RxMarbles'),
     ' by ',
-    h('a', {href: 'https://twitter.com/andrestaltz'}, '@andrestaltz')
+    h('a', {href: 'https://twitter.com/andrestaltz'}, '@andrestaltz'),
+    '. Source on ',
+    h('a', {href: 'https://github.com/neilpa/rac-marbles'}, 'github')
   ]);
 }
 
