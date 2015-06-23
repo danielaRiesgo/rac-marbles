@@ -4,6 +4,7 @@
 var transformExamples = require('rxmarbles/data/transform-examples');
 var combineExamples = require('rxmarbles/data/combine-examples');
 var filterExamples = require('rxmarbles/data/filter-examples');
+var flattenExamples = require('rxmarbles/data/flatten-examples');
 var mathExamples = require('rxmarbles/data/math-examples');
 
 function merge() {
@@ -31,5 +32,6 @@ module.exports = merge(
   applyCategory(transformExamples, "Transforming Operators"),
   applyCategory(combineExamples, "Combining Operators"),
   applyCategory(filterExamples, "Filtering Operators"),
+  applyCategory(flattenExamples, "Flatten Operators"),
   applyCategory(mathExamples, "Mathematical Operators")
 );

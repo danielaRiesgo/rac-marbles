@@ -31016,7 +31016,7 @@ module.exports = function appView(model) {
     return h('div', [vrenderHeader(), vrenderContent(route), vrenderFooter(appVersion, rxVersion)]);
   });
 };
-},{"cyclejs":6,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141}],120:[function(require,module,exports){
+},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142}],120:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31091,7 +31091,7 @@ function diagramCompletionComponent(interactions, properties) {
 }
 
 module.exports = diagramCompletionComponent;
-},{"cyclejs":6,"rxmarbles/styles/utils":141}],121:[function(require,module,exports){
+},{"cyclejs":6,"rxmarbles/styles/utils":142}],121:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31437,7 +31437,7 @@ function diagramView(model) {
 }
 
 module.exports = diagramView;
-},{"cyclejs":6,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141,"rxtween":150}],124:[function(require,module,exports){
+},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142,"rxtween":151}],124:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31567,7 +31567,7 @@ function marbleComponent(interactions, properties) {
 }
 
 module.exports = marbleComponent;
-},{"cyclejs":6,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":102,"rxmarbles/styles/colors":138,"rxmarbles/styles/utils":141}],126:[function(require,module,exports){
+},{"cyclejs":6,"cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg":102,"rxmarbles/styles/colors":139,"rxmarbles/styles/utils":142}],126:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31622,7 +31622,7 @@ function operatorsMenuLink(interactions, properties) {
 }
 
 module.exports = operatorsMenuLink;
-},{"cyclejs":6,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/utils":141}],127:[function(require,module,exports){
+},{"cyclejs":6,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/utils":142}],127:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -31741,7 +31741,7 @@ function operatorsMenuComponent() {
 }
 
 module.exports = operatorsMenuComponent;
-},{"cyclejs":6,"rxmarbles/data/examples":133,"rxmarbles/data/todo":136,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/utils":141}],128:[function(require,module,exports){
+},{"cyclejs":6,"rxmarbles/data/examples":133,"rxmarbles/data/todo":137,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/utils":142}],128:[function(require,module,exports){
 /*
  * Functions to handle data of input diagrams in the example shown in the
  * sandbox.
@@ -32087,7 +32087,7 @@ function sandboxComponent(interactions, properties) {
 }
 
 module.exports = sandboxComponent;
-},{"cyclejs":6,"immutable":115,"rxmarbles/components/sandbox/sandbox-input":128,"rxmarbles/components/sandbox/sandbox-output":129,"rxmarbles/data/examples":133,"rxmarbles/styles/colors":138,"rxmarbles/styles/dimens":139,"rxmarbles/styles/fonts":140,"rxmarbles/styles/utils":141,"rxtween":150}],131:[function(require,module,exports){
+},{"cyclejs":6,"immutable":115,"rxmarbles/components/sandbox/sandbox-input":128,"rxmarbles/components/sandbox/sandbox-output":129,"rxmarbles/data/examples":133,"rxmarbles/styles/colors":139,"rxmarbles/styles/dimens":140,"rxmarbles/styles/fonts":141,"rxmarbles/styles/utils":142,"rxtween":151}],131:[function(require,module,exports){
 /*
  * Conversion from virtual time streams out to diagram data, and
  * vice-versa, and related functions.
@@ -32140,22 +32140,6 @@ module.exports = {
     }
   },
 
-  "concat": {
-    "label": "concat",
-    "inputs": [[{ t: 0, d: 1 }, { t: 15, d: 1 }, { t: 50, d: 1 }, 57], [{ t: 0, d: 2 }, { t: 8, d: 2 }, 12]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.concat(inputs);
-    }
-  },
-
-  "merge": {
-    "label": "merge",
-    "inputs": [[{ t: 0, d: 20 }, { t: 15, d: 40 }, { t: 30, d: 60 }, { t: 45, d: 80 }, { t: 60, d: 100 }], [{ t: 37, d: 1 }, { t: 68, d: 1 }]],
-    "apply": function apply(inputs) {
-      return Rx.Observable.merge(inputs);
-    }
-  },
-
   "sample": {
     "label": "sample",
     "inputs": [[{ t: 0, d: 1 }, { t: 20, d: 2 }, { t: 40, d: 3 }, { t: 60, d: 4 }, { t: 80, d: 5 }], [{ t: 10, d: "A" }, { t: 25, d: "B" }, { t: 33, d: "C" }, { t: 70, d: "D" }, 90]],
@@ -32183,6 +32167,7 @@ module.exports = {
 var transformExamples = require('rxmarbles/data/transform-examples');
 var combineExamples = require('rxmarbles/data/combine-examples');
 var filterExamples = require('rxmarbles/data/filter-examples');
+var flattenExamples = require('rxmarbles/data/flatten-examples');
 var mathExamples = require('rxmarbles/data/math-examples');
 
 function merge() {
@@ -32206,8 +32191,8 @@ function applyCategory(examples, categoryName) {
   return examples;
 };
 
-module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
-},{"rxmarbles/data/combine-examples":132,"rxmarbles/data/filter-examples":134,"rxmarbles/data/math-examples":135,"rxmarbles/data/transform-examples":137}],134:[function(require,module,exports){
+module.exports = merge(applyCategory(transformExamples, 'Transforming Operators'), applyCategory(combineExamples, 'Combining Operators'), applyCategory(filterExamples, 'Filtering Operators'), applyCategory(flattenExamples, 'Flatten Operators'), applyCategory(mathExamples, 'Mathematical Operators'));
+},{"rxmarbles/data/combine-examples":132,"rxmarbles/data/filter-examples":134,"rxmarbles/data/flatten-examples":135,"rxmarbles/data/math-examples":136,"rxmarbles/data/transform-examples":138}],134:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
@@ -32269,6 +32254,28 @@ module.exports = {
 var Rx = require("cyclejs").Rx;
 
 module.exports = {
+  "concat": {
+    "label": "flatten(.Concat)",
+    "inputs": [[{ t: 0, d: 1 }, { t: 15, d: 1 }, { t: 50, d: 1 }, 57], [{ t: 0, d: 2 }, { t: 8, d: 2 }, 12]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.concat(inputs);
+    }
+  },
+
+  "merge": {
+    "label": "flatten(.Merge)",
+    "inputs": [[{ t: 0, d: 20 }, { t: 15, d: 40 }, { t: 30, d: 60 }, { t: 45, d: 80 }, { t: 60, d: 100 }], [{ t: 37, d: 1 }, { t: 68, d: 1 }]],
+    "apply": function apply(inputs) {
+      return Rx.Observable.merge(inputs);
+    }
+  }
+};
+},{"cyclejs":6}],136:[function(require,module,exports){
+"use strict";
+
+var Rx = require("cyclejs").Rx;
+
+module.exports = {
   "reduce": {
     "label": "reduce((x, y) => x + y)",
     "inputs": [[{ t: 5, d: 1 }, { t: 15, d: 2 }, { t: 25, d: 3 }, { t: 35, d: 4 }, { t: 65, d: 5 }, 80]],
@@ -32279,7 +32286,7 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":6}],136:[function(require,module,exports){
+},{"cyclejs":6}],137:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
@@ -32325,12 +32332,10 @@ module.exports = {
     "wait": { "label": "wait" },
 
     // Flattening operators
-    "flatten(.Merge)": { "label": "flatten(.Merge)" },
-    "flatten(.Concat)": { "label": "flatten(.Concat)" },
-    "flatten(.Latest)": { "label": "flatten(.Latest)" },
+    "latest": { "label": "flatten(.Latest)" },
     "flatMap": { "label": "flatMap" }
 };
-},{"cyclejs":6}],137:[function(require,module,exports){
+},{"cyclejs":6}],138:[function(require,module,exports){
 "use strict";
 
 var Rx = require("cyclejs").Rx;
@@ -32364,7 +32369,7 @@ module.exports = {
     }
   }
 };
-},{"cyclejs":6}],138:[function(require,module,exports){
+},{"cyclejs":6}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32383,7 +32388,7 @@ exports['default'] = {
   green: '#82D736'
 };
 module.exports = exports['default'];
-},{}],139:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32400,7 +32405,7 @@ exports['default'] = {
   animationDurationSlow: '400ms'
 };
 module.exports = exports['default'];
-},{}],140:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32412,7 +32417,7 @@ exports["default"] = {
   fontCode: "'Source Code Pro', monospace"
 };
 module.exports = exports["default"];
-},{}],141:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32503,7 +32508,7 @@ exports['default'] = {
   textUnselectable: textUnselectable
 };
 module.exports = exports['default'];
-},{"cyclejs":6,"immutable":115}],142:[function(require,module,exports){
+},{"cyclejs":6,"immutable":115}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32523,7 +32528,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],143:[function(require,module,exports){
+},{"./ease-common":146}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32556,7 +32561,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],144:[function(require,module,exports){
+},{"./ease-common":146}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32573,7 +32578,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],145:[function(require,module,exports){
+},{"./ease-common":146}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32613,7 +32618,7 @@ exports['default'] = {
   }
 };
 module.exports = exports['default'];
-},{}],146:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32644,7 +32649,7 @@ exports['default'] = {
   EasingElastic: createEasing(elasticIn)
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],147:[function(require,module,exports){
+},{"./ease-common":146}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32668,7 +32673,7 @@ exports['default'] = {
   EasingExponential: EasingExponential
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],148:[function(require,module,exports){
+},{"./ease-common":146}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32697,7 +32702,7 @@ exports['default'] = {
   EasingPower4: EasingPower4
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],149:[function(require,module,exports){
+},{"./ease-common":146}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32717,7 +32722,7 @@ exports['default'] = {
   })
 };
 module.exports = exports['default'];
-},{"./ease-common":145}],150:[function(require,module,exports){
+},{"./ease-common":146}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -32800,4 +32805,4 @@ RxTween.Sine = EasingSine;
 
 exports['default'] = RxTween;
 module.exports = exports['default'];
-},{"./ease-back":142,"./ease-bounce":143,"./ease-circ":144,"./ease-common":145,"./ease-elastic":146,"./ease-exponential":147,"./ease-powers":148,"./ease-sine":149,"rx":117}]},{},[1]);
+},{"./ease-back":143,"./ease-bounce":144,"./ease-circ":145,"./ease-common":146,"./ease-elastic":147,"./ease-exponential":148,"./ease-powers":149,"./ease-sine":150,"rx":117}]},{},[1]);
