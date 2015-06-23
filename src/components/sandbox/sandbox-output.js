@@ -3,7 +3,7 @@
  * sandbox.
  */
 import {Rx} from 'cyclejs';
-import Utils from 'rxmarbles/components/sandbox/utils';
+import Utils from 'rac-marbles/components/sandbox/utils';
 import Immutable from 'immutable';
 
 const MAX_VT_TIME = 100; // Time of completion

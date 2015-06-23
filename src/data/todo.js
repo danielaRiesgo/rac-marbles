@@ -41,9 +41,7 @@ module.exports = {
     "wait": { "label": "wait" },
 
     // Flattening operators
-    "flatten(.Merge)": { "label": "flatten(.Merge)" },
-    "flatten(.Concat)": { "label": "flatten(.Concat)" },
-    "flatten(.Latest)": { "label": "flatten(.Latest)" },
+    "latest": { "label": "flatten(.Latest)" },
     "flatMap": { "label": "flatMap" }
 }
 

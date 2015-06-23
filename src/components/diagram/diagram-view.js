@@ -1,9 +1,9 @@
 import Cycle from 'cyclejs';
-import Colors from 'rxmarbles/styles/colors';
-import Dimens from 'rxmarbles/styles/dimens';
-import Fonts from 'rxmarbles/styles/fonts';
+import Colors from 'rac-marbles/styles/colors';
+import Dimens from 'rac-marbles/styles/dimens';
+import Fonts from 'rac-marbles/styles/fonts';
 import RxTween from 'rxtween';
-import {mergeStyles, textUnselectable} from 'rxmarbles/styles/utils';
+import {mergeStyles, textUnselectable} from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 

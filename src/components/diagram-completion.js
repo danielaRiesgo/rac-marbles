@@ -1,6 +1,6 @@
 import Cycle from 'cyclejs';
 import {mergeStyles, textUnselectable, elevation1Style}
-  from 'rxmarbles/styles/utils';
+  from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 

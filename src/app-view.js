@@ -1,13 +1,10 @@
 import Cycle from 'cyclejs';
-import Colors from 'rxmarbles/styles/colors';
-import Dimens from 'rxmarbles/styles/dimens';
-import Fonts from 'rxmarbles/styles/fonts';
-import {mergeStyles} from 'rxmarbles/styles/utils';
+import Colors from 'rac-marbles/styles/colors';
+import Dimens from 'rac-marbles/styles/dimens';
+import Fonts from 'rac-marbles/styles/fonts';
+import {mergeStyles} from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
-
-const rxmarblesGithubUrl = 'https://github.com/staltz/rxmarbles';
-const rxjsGithubUrl = 'https://github.com/Reactive-Extensions/RxJS';
 
 const pageRowWidth = '1060px';
 const sandboxWidth = '820px';
@@ -39,12 +36,12 @@ function vrenderHeader() {
         fontFamily: Fonts.fontSpecial,
         color: Colors.greyDark},
         pageRowFirstChildStyle)},
-      'RxMarbles'),
+      'RAC Marbles'),
     h('h3',
       {style: mergeStyles({
         color: Colors.greyDark},
         pageRowLastChildStyle)},
-      'Interactive diagrams of Rx Observables')
+      'Interactive diagrams for ReactiveCocoa')
   ]);
 }
 
@@ -67,7 +64,7 @@ function vrenderContent(route) {
   );
 }
 
-function vrenderFooter(appVersion, rxVersion) {
+function vrenderFooter() {
   return h('section', {
     style: {
       position: 'fixed',
@@ -76,9 +73,8 @@ function vrenderFooter(appVersion, rxVersion) {
       color: Colors.greyDark
     }
   }, [
-    h('a', {href: `${rxmarblesGithubUrl}/releases/tag/v${appVersion}`}, `v${appVersion}`),
-    ' built on ',
-    h('a', {href: `${rxjsGithubUrl}/tree/v${rxVersion}`}, `RxJS v${rxVersion}`),
+    'Shameless fork of ',
+    h('a', {href: 'http://rxmarbles.com'}, 'RxMarbles'),
     ' by ',
     h('a', {href: 'https://twitter.com/andrestaltz'}, '@andrestaltz')
   ]);
@@ -87,13 +83,11 @@ function vrenderFooter(appVersion, rxVersion) {
 module.exports = function appView(model) {
   return Rx.Observable.combineLatest(
     model.route$,
-    model.appVersion$,
-    model.rxVersion$,
     (route, appVersion, rxVersion) =>
       h('div', [
         vrenderHeader(),
         vrenderContent(route),
-        vrenderFooter(appVersion, rxVersion)
+        vrenderFooter()
       ])
   )
 };

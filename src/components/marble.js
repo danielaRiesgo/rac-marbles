@@ -1,8 +1,8 @@
 import Cycle from 'cyclejs';
 import svg from 'cyclejs/node_modules/virtual-dom/virtual-hyperscript/svg';
-import Colors from 'rxmarbles/styles/colors';
+import Colors from 'rac-marbles/styles/colors';
 import {mergeStyles, svgElevation1Style, textUnselectable}
-  from 'rxmarbles/styles/utils';
+  from 'rac-marbles/styles/utils';
 let Rx = Cycle.Rx;
 let h = Cycle.h;
 
