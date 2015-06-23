@@ -2,22 +2,12 @@ var Rx = require('cyclejs').Rx;
 
 module.exports = {
   "filter": {
-    "label": "filter(x => x > 10)",
+    "label": "filter { x in x > 10 }",
     "inputs": [
       [{t:5, d:2}, {t:15, d:30}, {t:25, d:22}, {t:35, d:5}, {t:45, d:60}, {t:55, d:1}]
     ],
     "apply": function(inputs) {
       return inputs[0].filter(x => (x.get('content') > 10));
-    }
-  },
-
-  "first": {
-    "label": "first",
-    "inputs": [
-      [{t:30, d:1}, {t:40, d:2}, {t:65, d:3}, {t:75, d:4}, 85]
-    ],
-    "apply": function(inputs) {
-      return inputs[0].first();
     }
   },
 

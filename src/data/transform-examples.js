@@ -2,7 +2,7 @@ var Rx = require('cyclejs').Rx;
 
 module.exports = {
   "delay": {
-    "label": "delay",
+    "label": "delay(20)",
     "inputs": [
       [{t:0, d:1}, {t:10, d:2}, {t:20, d:1}]
     ],
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   "map": {
-    "label": "map(x => 10 * x)",
+    "label": "map { x in x * 10 }",
     "inputs": [
       [{t:10, d:1}, {t:20, d:2}, {t:50, d:3}]
     ],
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   "scan": {
-    "label": "scan((x, y) => x + y)",
+    "label": "scan",
     "inputs": [
       [{t:5, d:1}, {t:15, d:2}, {t:25, d:3}, {t:35, d:4}, {t:65, d:5}]
     ],
