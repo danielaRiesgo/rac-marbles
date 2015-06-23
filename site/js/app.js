@@ -20256,7 +20256,7 @@ function vrenderFooter() {
       right: _racMarblesStylesDimens2['default'].spaceMedium,
       color: _racMarblesStylesColors2['default'].greyDark
     }
-  }, ['Shameless fork of ', h('a', { href: 'http://rxmarbles.com' }, 'RxMarbles'), ' by ', h('a', { href: 'https://twitter.com/andrestaltz' }, '@andrestaltz')]);
+  }, ['Shameless fork of ', h('a', { href: 'http://rxmarbles.com' }, 'RxMarbles'), ' by ', h('a', { href: 'https://twitter.com/andrestaltz' }, '@andrestaltz'), '. Source on ', h('a', { href: 'https://github.com/neilpa/rac-marbles' }, 'github')]);
 }
 
 module.exports = function appView(model) {
